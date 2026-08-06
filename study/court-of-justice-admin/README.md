@@ -10,7 +10,7 @@
 | `SOURCES.md` | แหล่งอ้างอิง |
 | `mindmap.md` / `mindmap.html` | แผนที่ความคิด |
 | `flashcards.json` / `flashcards.html` | บัตรคำ 20 ใบ |
-| `quiz.json` / `quiz.html` | แบบทดสอบ 2 ชุด ชุดละ 15 ข้อ — เลือกชุดได้ |
+| `quiz.json` / `quiz.html` | แบบทดสอบ 5 ชุด ชุดละ 30 ข้อ — เลือกชุดได้ |
 
 ## วิธีใช้
 

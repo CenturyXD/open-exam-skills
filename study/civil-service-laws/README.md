@@ -14,6 +14,7 @@
 
 ## วิธีใช้
 
+0. เปิด [เมนูหลัก](../index.html) แล้วเลือกอันที่ต้องการ
 1. อ่าน `summary.html` (สรุปละเอียดทีละหมวด)
 2. เปิด `mindmap.html` เพื่อดูภาพรวมโครงสร้าง
 3. ท่องด้วย `flashcards.html`
@@ -21,10 +22,11 @@
 
 ### อ่านบนมือถือ (Cloud)
 
-- สรุปเนื้อหา: https://htmlpreview.github.io/?https://github.com/CenturyXD/open-exam-skills/blob/cursor/detailed-summaries-7242/study/civil-service-laws/summary.html
-- แผนที่ความคิด: https://htmlpreview.github.io/?https://github.com/CenturyXD/open-exam-skills/blob/cursor/detailed-summaries-7242/study/civil-service-laws/mindmap.html
-- บัตรคำ: https://htmlpreview.github.io/?https://github.com/CenturyXD/open-exam-skills/blob/cursor/detailed-summaries-7242/study/civil-service-laws/flashcards.html
-- ข้อสอบ: https://htmlpreview.github.io/?https://github.com/CenturyXD/open-exam-skills/blob/cursor/detailed-summaries-7242/study/civil-service-laws/quiz.html
+- **เมนูหลัก:** https://htmlpreview.github.io/?https://github.com/CenturyXD/open-exam-skills/blob/cursor/court-justice-admin-act-7242/study/index.html
+- สรุปเนื้อหา: https://htmlpreview.github.io/?https://github.com/CenturyXD/open-exam-skills/blob/cursor/court-justice-admin-act-7242/study/civil-service-laws/summary.html
+- แผนที่ความคิด: https://htmlpreview.github.io/?https://github.com/CenturyXD/open-exam-skills/blob/cursor/court-justice-admin-act-7242/study/civil-service-laws/mindmap.html
+- บัตรคำ: https://htmlpreview.github.io/?https://github.com/CenturyXD/open-exam-skills/blob/cursor/court-justice-admin-act-7242/study/civil-service-laws/flashcards.html
+- ข้อสอบ: https://htmlpreview.github.io/?https://github.com/CenturyXD/open-exam-skills/blob/cursor/court-justice-admin-act-7242/study/civil-service-laws/quiz.html
 
 ## สร้าง HTML ใหม่ (ถ้าแก้ไข JSON/Markdown)
 
