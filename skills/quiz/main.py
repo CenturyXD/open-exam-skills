@@ -86,8 +86,24 @@ def load_quiz_data(json_path: str) -> dict:
     if isinstance(data, list):
         return {
             "title": "Quiz",
-            "questions": data
+            "questions": data,
+            "banks": [{
+                "id": "set1",
+                "title": "Quiz",
+                "questions": data
+            }]
         }
+
+    # Normalize banks: prefer explicit banks, else wrap questions
+    if data.get("banks"):
+        return data
+
+    questions = data.get("questions", [])
+    data["banks"] = [{
+        "id": "set1",
+        "title": data.get("title", "Quiz"),
+        "questions": questions
+    }]
     return data
 
 
@@ -95,10 +111,16 @@ def generate_html(quiz_data: dict, katex_assets: dict) -> str:
     """Generate interactive quiz HTML."""
 
     title = quiz_data.get("title", "Quiz")
-    questions = quiz_data.get("questions", [])
+    banks = quiz_data.get("banks") or [{
+        "id": "set1",
+        "title": title,
+        "questions": quiz_data.get("questions", [])
+    }]
+    questions = banks[0].get("questions", [])
     total_questions = len(questions)
 
-    # Convert questions to JSON string for embedding
+    # Convert banks/questions to JSON string for embedding
+    banks_json = json.dumps(banks, ensure_ascii=False)
     questions_json = json.dumps(questions, ensure_ascii=False)
 
     katex_styles = katex_assets['styles']
@@ -532,8 +554,8 @@ def generate_html(quiz_data: dict, katex_assets: dict) -> str:
 <body>
     <div class="quiz-container">
         <div class="quiz-header">
-            <div class="quiz-title">{title}</div>
-            <div class="quiz-subtitle">Based on 1 source</div>
+            <div class="quiz-title" id="quiz-title">{title}</div>
+            <div class="quiz-subtitle" id="quiz-subtitle">ชุดที่ 1</div>
         </div>
 
         <div id="quiz-content">
@@ -543,7 +565,7 @@ def generate_html(quiz_data: dict, katex_assets: dict) -> str:
         <div id="completion-screen" class="completion-container">
             <div class="completion-icon">🎉</div>
             <div class="completion-title">ทำครบแล้ว!</div>
-            <div class="completion-subtitle">ดูผลคะแนนของคุณ แล้วสร้างควิซใหม่ได้เลย</div>
+            <div class="completion-subtitle">ดูผลคะแนนของคุณ แล้วกดสร้างควิซใหม่เพื่อเปลี่ยนไปชุดข้อสอบถัดไป</div>
 
             <div class="stats-grid">
                 <div class="stat-card score">
@@ -569,7 +591,7 @@ def generate_html(quiz_data: dict, katex_assets: dict) -> str:
             </div>
 
             <div class="completion-buttons">
-                <button class="btn btn-primary" onclick="createNewQuiz()">สร้างควิซใหม่</button>
+                <button class="btn btn-primary" onclick="createNewQuiz()">สร้างควิซใหม่ (ชุดถัดไป)</button>
                 <button class="btn btn-secondary" onclick="reviewQuiz()">ทบทวนข้อสอบ</button>
             </div>
         </div>
@@ -577,32 +599,24 @@ def generate_html(quiz_data: dict, katex_assets: dict) -> str:
 
     {katex_scripts}
     <script>
-        const originalQuestions = {questions_json};
-        let questions = originalQuestions.map(q => ({{ ...q, options: [...q.options] }}));
+        const quizBanks = {banks_json};
+        let currentBankIndex = 0;
+        let questions = quizBanks[0].questions.map(q => ({{ ...q, options: [...q.options] }}));
         let totalQuestions = questions.length;
         let currentQuestionIndex = 0;
         let userAnswers = []; // Store user's answers {{questionIndex, selectedIndex, isCorrect}}
         let isReviewMode = false;
 
-        function shuffleArray(items) {{
-            const arr = [...items];
-            for (let i = arr.length - 1; i > 0; i--) {{
-                const j = Math.floor(Math.random() * (i + 1));
-                [arr[i], arr[j]] = [arr[j], arr[i]];
+        function updateQuizHeader() {{
+            const bank = quizBanks[currentBankIndex];
+            const titleEl = document.getElementById('quiz-title');
+            const subtitleEl = document.getElementById('quiz-subtitle');
+            if (titleEl) {{
+                titleEl.textContent = bank.title || '{title}';
             }}
-            return arr;
-        }}
-
-        function buildShuffledQuiz() {{
-            return shuffleArray(originalQuestions).map((q) => {{
-                const indexed = q.options.map((text, idx) => ({{ text, idx }}));
-                const shuffled = shuffleArray(indexed);
-                return {{
-                    ...q,
-                    options: shuffled.map(item => item.text),
-                    correctIndex: shuffled.findIndex(item => item.idx === q.correctIndex)
-                }};
-            }});
+            if (subtitleEl) {{
+                subtitleEl.textContent = `ชุดที่ ${{currentBankIndex + 1}} / ${{quizBanks.length}} · ข้อสอบใหม่ทั้งชุด`;
+            }}
         }}
 
         function renderMath(target) {{
@@ -826,15 +840,21 @@ def generate_html(quiz_data: dict, katex_assets: dict) -> str:
         }}
 
         function createNewQuiz() {{
+            if (quizBanks.length > 1) {{
+                currentBankIndex = (currentBankIndex + 1) % quizBanks.length;
+            }}
+
+            const bank = quizBanks[currentBankIndex];
             isReviewMode = false;
             currentQuestionIndex = 0;
             userAnswers = [];
-            questions = buildShuffledQuiz();
+            questions = bank.questions.map(q => ({{ ...q, options: [...q.options] }}));
             totalQuestions = questions.length;
 
             const quizContent = document.getElementById('quiz-content');
             const completionScreen = document.getElementById('completion-screen');
             document.getElementById('score-value').textContent = `0/${{totalQuestions}}`;
+            updateQuizHeader();
 
             quizContent.style.display = 'block';
             completionScreen.classList.remove('show');
@@ -848,6 +868,7 @@ def generate_html(quiz_data: dict, katex_assets: dict) -> str:
         }}
 
         // Initialize quiz on page load
+        updateQuizHeader();
         initQuiz();
     </script>
 </body>
@@ -861,7 +882,9 @@ def convert_quiz(input_path: str, output_path: str) -> str:
     logger.info(f"Loading quiz from {input_path}")
     quiz_data = load_quiz_data(input_path)
 
-    logger.info(f"Generating HTML with {len(quiz_data['questions'])} questions")
+    banks = quiz_data.get("banks") or []
+    question_count = sum(len(bank.get("questions", [])) for bank in banks) or len(quiz_data.get("questions", []))
+    logger.info(f"Generating HTML with {len(banks) or 1} bank(s), {question_count} total questions")
     katex_assets = get_katex_assets()
     html = generate_html(quiz_data, katex_assets)
 
