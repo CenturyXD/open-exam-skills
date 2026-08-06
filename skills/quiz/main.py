@@ -483,6 +483,71 @@ def generate_html(quiz_data: dict, katex_assets: dict) -> str:
             padding: 14px 20px;
         }}
 
+        .wrong-review {{
+            text-align: left;
+            margin: 24px 0 8px;
+        }}
+
+        .wrong-review-title {{
+            font-size: 18px;
+            font-weight: 700;
+            color: #1a1a1a;
+            margin-bottom: 12px;
+        }}
+
+        .wrong-empty {{
+            background: #ecfdf3;
+            color: #166534;
+            border: 1px solid #bbf7d0;
+            border-radius: 12px;
+            padding: 14px 16px;
+            font-size: 14px;
+        }}
+
+        .wrong-item {{
+            background: #fff;
+            border: 1px solid #f1d0d0;
+            border-left: 4px solid #ef4444;
+            border-radius: 12px;
+            padding: 14px 16px;
+            margin-bottom: 10px;
+        }}
+
+        .wrong-item-q {{
+            font-size: 14px;
+            font-weight: 600;
+            color: #1f2430;
+            margin-bottom: 8px;
+            line-height: 1.5;
+        }}
+
+        .wrong-meta {{
+            font-size: 13px;
+            line-height: 1.55;
+            margin-bottom: 4px;
+        }}
+
+        .wrong-meta .label {{
+            color: #6b7280;
+        }}
+
+        .wrong-meta.yours {{
+            color: #b91c1c;
+        }}
+
+        .wrong-meta.correct {{
+            color: #15803d;
+        }}
+
+        .wrong-explain {{
+            margin-top: 8px;
+            font-size: 13px;
+            color: #374151;
+            background: #f9fafb;
+            border-radius: 8px;
+            padding: 8px 10px;
+        }}
+
         .hint-toggle {{
             display: inline-flex;
             align-items: center;
@@ -588,6 +653,11 @@ def generate_html(quiz_data: dict, katex_assets: dict) -> str:
                     <div class="stat-label">ข้าม</div>
                     <div class="stat-value" id="skipped-value">0</div>
                 </div>
+            </div>
+
+            <div class="wrong-review">
+                <div class="wrong-review-title">ข้อที่ผิด / ควรทบทวน</div>
+                <div id="wrong-list"></div>
             </div>
 
             <div class="completion-buttons">
@@ -819,9 +889,44 @@ def generate_html(quiz_data: dict, katex_assets: dict) -> str:
             document.getElementById('wrong-value').textContent = wrongAnswers;
             document.getElementById('skipped-value').textContent = skipped;
 
+            // Render wrong / skipped review
+            const wrongList = document.getElementById('wrong-list');
+            let reviewHtml = '';
+            questions.forEach((q, idx) => {{
+                const ans = userAnswers[idx];
+                const letter = (i) => String.fromCharCode(65 + i);
+                if (!ans) {{
+                    reviewHtml += `
+                        <div class="wrong-item">
+                            <div class="wrong-item-q">ข้อ ${{idx + 1}}. ${{q.question}}</div>
+                            <div class="wrong-meta yours"><span class="label">คำตอบของคุณ:</span> ยังไม่ได้ตอบ</div>
+                            <div class="wrong-meta correct"><span class="label">เฉลย:</span> ${{letter(q.correctIndex)}}. ${{q.options[q.correctIndex]}}</div>
+                            <div class="wrong-explain">${{q.wrongExplanation || q.correctExplanation || q.explanation || ''}}</div>
+                        </div>
+                    `;
+                    return;
+                }}
+                if (!ans.isCorrect) {{
+                    reviewHtml += `
+                        <div class="wrong-item">
+                            <div class="wrong-item-q">ข้อ ${{idx + 1}}. ${{q.question}}</div>
+                            <div class="wrong-meta yours"><span class="label">คำตอบของคุณ:</span> ${{letter(ans.selectedIndex)}}. ${{q.options[ans.selectedIndex]}}</div>
+                            <div class="wrong-meta correct"><span class="label">เฉลย:</span> ${{letter(q.correctIndex)}}. ${{q.options[q.correctIndex]}}</div>
+                            <div class="wrong-explain">${{q.wrongExplanation || q.correctExplanation || q.explanation || ''}}</div>
+                        </div>
+                    `;
+                }}
+            }});
+            if (!reviewHtml) {{
+                reviewHtml = '<div class="wrong-empty">เยี่ยมมาก! ไม่มีข้อผิดในชุดนี้</div>';
+            }}
+            wrongList.innerHTML = reviewHtml;
+            renderMath(wrongList);
+
             // Show completion screen
             quizContent.style.display = 'none';
             completionScreen.classList.add('show');
+            window.scrollTo({{ top: 0, behavior: 'smooth' }});
         }}
 
         function reviewQuiz() {{
