@@ -6,6 +6,7 @@
 
 | ไฟล์ | คำอธิบาย |
 |------|----------|
+| `SUMMARY.md` / `summary.html` | **สรุปเนื้อหาทีละกฎหมาย (เริ่มที่นี่)** |
 | `SOURCES.md` | รายการแหล่งข้อมูลที่น่าเชื่อถือ |
 | `mindmap.md` / `mindmap.html` | แผนที่ความคิด |
 | `flashcards.json` / `flashcards.html` | บัตรคำท่องจำ |
@@ -13,10 +14,19 @@
 
 ## วิธีใช้
 
-1. อ่าน `SOURCES.md` เพื่อรู้แหล่งอ้างอิง
+1. อ่าน `summary.html` (สรุปทีละอัน)
 2. เปิด `mindmap.html` เพื่อดูภาพรวมโครงสร้าง
 3. ท่องด้วย `flashcards.html`
 4. ทดสอบด้วย `quiz.html`
+
+### อ่านบนมือถือ (Cloud)
+
+- สรุปเนื้อหา: https://htmlpreview.github.io/?https://github.com/CenturyXD/open-exam-skills/blob/main/study/civil-service-laws/summary.html
+- แผนที่ความคิด: https://htmlpreview.github.io/?https://github.com/CenturyXD/open-exam-skills/blob/main/study/civil-service-laws/mindmap.html
+- บัตรคำ: https://htmlpreview.github.io/?https://github.com/CenturyXD/open-exam-skills/blob/main/study/civil-service-laws/flashcards.html
+- ข้อสอบ: https://htmlpreview.github.io/?https://github.com/CenturyXD/open-exam-skills/blob/main/study/civil-service-laws/quiz.html
+
+หมายเหตุ: ลิงก์ `main` จะใช้ได้หลัง merge PR นี้เข้า main
 
 ## สร้าง HTML ใหม่ (ถ้าแก้ไข JSON/Markdown)
 
