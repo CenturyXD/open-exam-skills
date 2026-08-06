@@ -197,7 +197,8 @@ def generate_notebooklm_html(
             position: relative;
             width: 100%;
             max-width: 360px;
-            height: 520px;
+            height: min(520px, 62vh);
+            min-height: 360px;
             perspective: 1000px;
         }}
 
@@ -220,18 +221,22 @@ def generate_notebooklm_html(
             height: 100%;
             backface-visibility: hidden;
             border-radius: 16px;
-            overflow: hidden;
+            overflow-x: hidden;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+            overscroll-behavior: contain;
             display: flex;
             flex-direction: column;
-            justify-content: center;
+            justify-content: flex-start;
             align-items: center;
-            padding: 40px;
+            padding: 28px 24px 56px;
             box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
         }}
 
         .card-front {{
             background: #0f0f0f url('data:image/png;base64,{confetti_black_b64}') center / cover no-repeat;
             color: white;
+            justify-content: center;
         }}
 
         .card-back {{
@@ -246,13 +251,13 @@ def generate_notebooklm_html(
             text-align: center;
             max-width: 100%;
             word-wrap: break-word;
+            width: 100%;
         }}
 
         .card-back .card-content {{
-            font-size: 20px;
+            font-size: 18px;
             text-align: left;
-            padding-left: 20px;
-            padding-right: 20px;
+            padding: 0 4px 12px;
         }}
 
         .card-back .card-content ul,
@@ -396,6 +401,44 @@ def generate_notebooklm_html(
         .download-icon {{
             fill: white;
             stroke: none;
+        }}
+
+        @media (max-width: 480px) {{
+            body {{
+                padding: 24px 12px 32px;
+            }}
+
+            .header h1 {{
+                font-size: 22px;
+            }}
+
+            .card-container {{
+                max-width: 100%;
+                height: min(560px, 68vh);
+                min-height: 380px;
+            }}
+
+            .card-face {{
+                padding: 20px 16px 48px;
+            }}
+
+            .card-content {{
+                font-size: 18px;
+            }}
+
+            .card-back .card-content {{
+                font-size: 16px;
+                line-height: 1.55;
+            }}
+
+            .card-back .card-content li {{
+                margin: 6px 0;
+                line-height: 1.55;
+            }}
+
+            .card-front .card-action {{
+                bottom: 16px;
+            }}
         }}
     </style>
     {katex_styles}
@@ -647,8 +690,32 @@ def generate_notebooklm_html(
             }}
         }});
 
-        // Click to flip
-        document.getElementById('card').addEventListener('click', flipCard);
+        // Click/tap to flip, but ignore when the user is scrolling long answers
+        (function () {{
+            const cardEl = document.getElementById('card');
+            let touchStartY = 0;
+            let moved = false;
+
+            cardEl.addEventListener('touchstart', (e) => {{
+                touchStartY = e.touches[0].clientY;
+                moved = false;
+            }}, {{ passive: true }});
+
+            cardEl.addEventListener('touchmove', (e) => {{
+                if (Math.abs(e.touches[0].clientY - touchStartY) > 8) {{
+                    moved = true;
+                }}
+            }}, {{ passive: true }});
+
+            cardEl.addEventListener('click', (e) => {{
+                if (moved) {{
+                    moved = false;
+                    return;
+                }}
+                // Allow text selection / scrollbar interaction without forcing a flip intent
+                flipCard();
+            }});
+        }})();
 
         // Initialize
         updateCard();
