@@ -443,8 +443,22 @@ def generate_html(quiz_data: dict, katex_assets: dict) -> str:
 
         .completion-buttons {{
             display: flex;
+            flex-direction: column;
             justify-content: center;
+            align-items: stretch;
             gap: 12px;
+            max-width: 320px;
+            margin: 0 auto;
+        }}
+
+        .completion-buttons .btn {{
+            width: 100%;
+        }}
+
+        .completion-buttons .btn-primary {{
+            order: -1;
+            font-size: 16px;
+            padding: 14px 20px;
         }}
 
         .hint-toggle {{
@@ -528,46 +542,68 @@ def generate_html(quiz_data: dict, katex_assets: dict) -> str:
 
         <div id="completion-screen" class="completion-container">
             <div class="completion-icon">🎉</div>
-            <div class="completion-title">You did it! Quiz Complete.</div>
-            <div class="completion-subtitle">Here's how you performed</div>
+            <div class="completion-title">ทำครบแล้ว!</div>
+            <div class="completion-subtitle">ดูผลคะแนนของคุณ แล้วสร้างควิซใหม่ได้เลย</div>
 
             <div class="stats-grid">
                 <div class="stat-card score">
-                    <div class="stat-label">Score</div>
+                    <div class="stat-label">คะแนน</div>
                     <div class="stat-value" id="score-value">0/{total_questions}</div>
                 </div>
                 <div class="stat-card">
-                    <div class="stat-label">Accuracy</div>
+                    <div class="stat-label">ความแม่นยำ</div>
                     <div class="stat-value" id="accuracy-value">0%</div>
                 </div>
                 <div class="stat-card">
-                    <div class="stat-label">Right</div>
+                    <div class="stat-label">ถูก</div>
                     <div class="stat-value" id="right-value">0</div>
                 </div>
                 <div class="stat-card">
-                    <div class="stat-label">Wrong</div>
+                    <div class="stat-label">ผิด</div>
                     <div class="stat-value" id="wrong-value">0</div>
                 </div>
                 <div class="stat-card">
-                    <div class="stat-label">Skipped</div>
+                    <div class="stat-label">ข้าม</div>
                     <div class="stat-value" id="skipped-value">0</div>
                 </div>
             </div>
 
             <div class="completion-buttons">
-                <button class="btn btn-secondary" onclick="reviewQuiz()">Review Quiz</button>
-                <button class="btn btn-primary" onclick="retakeQuiz()">Retake Quiz</button>
+                <button class="btn btn-primary" onclick="createNewQuiz()">สร้างควิซใหม่</button>
+                <button class="btn btn-secondary" onclick="reviewQuiz()">ทบทวนข้อสอบ</button>
             </div>
         </div>
     </div>
 
     {katex_scripts}
     <script>
-        const questions = {questions_json};
-        const totalQuestions = questions.length;
+        const originalQuestions = {questions_json};
+        let questions = originalQuestions.map(q => ({{ ...q, options: [...q.options] }}));
+        let totalQuestions = questions.length;
         let currentQuestionIndex = 0;
         let userAnswers = []; // Store user's answers {{questionIndex, selectedIndex, isCorrect}}
         let isReviewMode = false;
+
+        function shuffleArray(items) {{
+            const arr = [...items];
+            for (let i = arr.length - 1; i > 0; i--) {{
+                const j = Math.floor(Math.random() * (i + 1));
+                [arr[i], arr[j]] = [arr[j], arr[i]];
+            }}
+            return arr;
+        }}
+
+        function buildShuffledQuiz() {{
+            return shuffleArray(originalQuestions).map((q) => {{
+                const indexed = q.options.map((text, idx) => ({{ text, idx }}));
+                const shuffled = shuffleArray(indexed);
+                return {{
+                    ...q,
+                    options: shuffled.map(item => item.text),
+                    correctIndex: shuffled.findIndex(item => item.idx === q.correctIndex)
+                }};
+            }});
+        }}
 
         function renderMath(target) {{
             if (!target || typeof renderMathInElement !== 'function') return;
@@ -677,8 +713,8 @@ def generate_html(quiz_data: dict, katex_assets: dict) -> str:
                         </div>
                         <div>
                             ${{showNext ? '<button class="btn btn-primary" onclick="nextQuestion()">Next</button>' : ''}}
-                            ${{showFinish ? '<button class="btn btn-primary" onclick="finishQuiz()">Finish Quiz</button>' : ''}}
-                            ${{showFinishReview ? '<button class="btn btn-primary" onclick="finishReview()">Finish Review</button>' : ''}}
+                            ${{showFinish ? '<button class="btn btn-primary" onclick="finishQuiz()">ดูผลคะแนน</button>' : ''}}
+                            ${{showFinishReview ? '<button class="btn btn-primary" onclick="finishReview()">กลับหน้าผลคะแนน</button>' : ''}}
                         </div>
                     </div>
                 </div>
@@ -699,6 +735,8 @@ def generate_html(quiz_data: dict, katex_assets: dict) -> str:
         }}
 
         function selectAnswer(selectedIndex) {{
+            if (isReviewMode || userAnswers[currentQuestionIndex] !== undefined) return;
+
             const question = questions[currentQuestionIndex];
             const isCorrect = selectedIndex === question.correctIndex;
 
@@ -711,6 +749,11 @@ def generate_html(quiz_data: dict, katex_assets: dict) -> str:
 
             // Re-render to show feedback
             renderQuestion();
+
+            // After the last question is answered, jump to the score screen
+            if (currentQuestionIndex === totalQuestions - 1) {{
+                setTimeout(() => finishQuiz(), 650);
+            }}
         }}
 
         function toggleHint() {{
@@ -782,16 +825,26 @@ def generate_html(quiz_data: dict, katex_assets: dict) -> str:
             showCompletionScreen();
         }}
 
-        function retakeQuiz() {{
+        function createNewQuiz() {{
             isReviewMode = false;
             currentQuestionIndex = 0;
             userAnswers = [];
+            questions = buildShuffledQuiz();
+            totalQuestions = questions.length;
+
             const quizContent = document.getElementById('quiz-content');
             const completionScreen = document.getElementById('completion-screen');
+            document.getElementById('score-value').textContent = `0/${{totalQuestions}}`;
 
             quizContent.style.display = 'block';
             completionScreen.classList.remove('show');
             renderQuestion();
+            window.scrollTo({{ top: 0, behavior: 'smooth' }});
+        }}
+
+        // Keep old name as alias for compatibility
+        function retakeQuiz() {{
+            createNewQuiz();
         }}
 
         // Initialize quiz on page load
