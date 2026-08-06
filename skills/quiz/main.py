@@ -86,8 +86,24 @@ def load_quiz_data(json_path: str) -> dict:
     if isinstance(data, list):
         return {
             "title": "Quiz",
-            "questions": data
+            "questions": data,
+            "banks": [{
+                "id": "set1",
+                "title": "Quiz",
+                "questions": data
+            }]
         }
+
+    # Normalize banks: prefer explicit banks, else wrap questions
+    if data.get("banks"):
+        return data
+
+    questions = data.get("questions", [])
+    data["banks"] = [{
+        "id": "set1",
+        "title": data.get("title", "Quiz"),
+        "questions": questions
+    }]
     return data
 
 
@@ -95,10 +111,16 @@ def generate_html(quiz_data: dict, katex_assets: dict) -> str:
     """Generate interactive quiz HTML."""
 
     title = quiz_data.get("title", "Quiz")
-    questions = quiz_data.get("questions", [])
+    banks = quiz_data.get("banks") or [{
+        "id": "set1",
+        "title": title,
+        "questions": quiz_data.get("questions", [])
+    }]
+    questions = banks[0].get("questions", [])
     total_questions = len(questions)
 
-    # Convert questions to JSON string for embedding
+    # Convert banks/questions to JSON string for embedding
+    banks_json = json.dumps(banks, ensure_ascii=False)
     questions_json = json.dumps(questions, ensure_ascii=False)
 
     katex_styles = katex_assets['styles']
@@ -443,8 +465,87 @@ def generate_html(quiz_data: dict, katex_assets: dict) -> str:
 
         .completion-buttons {{
             display: flex;
+            flex-direction: column;
             justify-content: center;
+            align-items: stretch;
             gap: 12px;
+            max-width: 320px;
+            margin: 0 auto;
+        }}
+
+        .completion-buttons .btn {{
+            width: 100%;
+        }}
+
+        .completion-buttons .btn-primary {{
+            order: -1;
+            font-size: 16px;
+            padding: 14px 20px;
+        }}
+
+        .wrong-review {{
+            text-align: left;
+            margin: 24px 0 8px;
+        }}
+
+        .wrong-review-title {{
+            font-size: 18px;
+            font-weight: 700;
+            color: #1a1a1a;
+            margin-bottom: 12px;
+        }}
+
+        .wrong-empty {{
+            background: #ecfdf3;
+            color: #166534;
+            border: 1px solid #bbf7d0;
+            border-radius: 12px;
+            padding: 14px 16px;
+            font-size: 14px;
+        }}
+
+        .wrong-item {{
+            background: #fff;
+            border: 1px solid #f1d0d0;
+            border-left: 4px solid #ef4444;
+            border-radius: 12px;
+            padding: 14px 16px;
+            margin-bottom: 10px;
+        }}
+
+        .wrong-item-q {{
+            font-size: 14px;
+            font-weight: 600;
+            color: #1f2430;
+            margin-bottom: 8px;
+            line-height: 1.5;
+        }}
+
+        .wrong-meta {{
+            font-size: 13px;
+            line-height: 1.55;
+            margin-bottom: 4px;
+        }}
+
+        .wrong-meta .label {{
+            color: #6b7280;
+        }}
+
+        .wrong-meta.yours {{
+            color: #b91c1c;
+        }}
+
+        .wrong-meta.correct {{
+            color: #15803d;
+        }}
+
+        .wrong-explain {{
+            margin-top: 8px;
+            font-size: 13px;
+            color: #374151;
+            background: #f9fafb;
+            border-radius: 8px;
+            padding: 8px 10px;
         }}
 
         .hint-toggle {{
@@ -512,62 +613,201 @@ def generate_html(quiz_data: dict, katex_assets: dict) -> str:
         .question-container.active {{
             display: block;
         }}
+
+        .bank-picker {{
+            display: none;
+            text-align: left;
+        }}
+
+        .bank-picker.show {{
+            display: block;
+        }}
+
+        .bank-picker-title {{
+            font-size: 22px;
+            font-weight: 700;
+            color: #1a1a1a;
+            margin-bottom: 8px;
+        }}
+
+        .bank-picker-sub {{
+            font-size: 14px;
+            color: #6b7280;
+            margin-bottom: 18px;
+        }}
+
+        .bank-card {{
+            width: 100%;
+            text-align: left;
+            background: #fff;
+            border: 1px solid #e5e7eb;
+            border-radius: 14px;
+            padding: 14px 16px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: border-color 0.15s, box-shadow 0.15s, transform 0.15s;
+        }}
+
+        .bank-card:hover {{
+            border-color: #424cf7;
+            box-shadow: 0 6px 16px rgba(66, 76, 247, 0.12);
+            transform: translateY(-1px);
+        }}
+
+        .bank-card-label {{
+            font-size: 12px;
+            font-weight: 700;
+            color: #424cf7;
+            margin-bottom: 4px;
+        }}
+
+        .bank-card-title {{
+            font-size: 15px;
+            font-weight: 600;
+            color: #1f2430;
+            line-height: 1.45;
+            margin-bottom: 4px;
+        }}
+
+        .bank-card-meta {{
+            font-size: 13px;
+            color: #6b7280;
+        }}
     </style>
     {katex_styles}
 </head>
 <body>
     <div class="quiz-container">
         <div class="quiz-header">
-            <div class="quiz-title">{title}</div>
-            <div class="quiz-subtitle">Based on 1 source</div>
+            <div class="quiz-title" id="quiz-title">{title}</div>
+            <div class="quiz-subtitle" id="quiz-subtitle">ชุดที่ 1</div>
         </div>
 
-        <div id="quiz-content">
+        <div id="bank-picker" class="bank-picker show">
+            <div class="bank-picker-title">เลือกชุดข้อสอบ</div>
+            <div class="bank-picker-sub" id="bank-picker-sub">กดชุดที่ต้องการเริ่มทำได้เลย</div>
+            <div id="bank-list"></div>
+        </div>
+
+        <div id="quiz-content" style="display:none;">
             <!-- Questions will be rendered here -->
         </div>
 
         <div id="completion-screen" class="completion-container">
             <div class="completion-icon">🎉</div>
-            <div class="completion-title">You did it! Quiz Complete.</div>
-            <div class="completion-subtitle">Here's how you performed</div>
+            <div class="completion-title">ทำครบแล้ว!</div>
+            <div class="completion-subtitle">ดูผลคะแนนและข้อผิด แล้วเลือกชุดถัดไปได้เลย</div>
 
             <div class="stats-grid">
                 <div class="stat-card score">
-                    <div class="stat-label">Score</div>
+                    <div class="stat-label">คะแนน</div>
                     <div class="stat-value" id="score-value">0/{total_questions}</div>
                 </div>
                 <div class="stat-card">
-                    <div class="stat-label">Accuracy</div>
+                    <div class="stat-label">ความแม่นยำ</div>
                     <div class="stat-value" id="accuracy-value">0%</div>
                 </div>
                 <div class="stat-card">
-                    <div class="stat-label">Right</div>
+                    <div class="stat-label">ถูก</div>
                     <div class="stat-value" id="right-value">0</div>
                 </div>
                 <div class="stat-card">
-                    <div class="stat-label">Wrong</div>
+                    <div class="stat-label">ผิด</div>
                     <div class="stat-value" id="wrong-value">0</div>
                 </div>
                 <div class="stat-card">
-                    <div class="stat-label">Skipped</div>
+                    <div class="stat-label">ข้าม</div>
                     <div class="stat-value" id="skipped-value">0</div>
                 </div>
             </div>
 
+            <div class="wrong-review">
+                <div class="wrong-review-title">ข้อที่ผิด / ควรทบทวน</div>
+                <div id="wrong-list"></div>
+            </div>
+
             <div class="completion-buttons">
-                <button class="btn btn-secondary" onclick="reviewQuiz()">Review Quiz</button>
-                <button class="btn btn-primary" onclick="retakeQuiz()">Retake Quiz</button>
+                <button class="btn btn-primary" onclick="showBankPicker()">เลือกชุดข้อสอบ</button>
+                <button class="btn btn-secondary" onclick="reviewQuiz()">ทบทวนข้อสอบนี้</button>
+                <button class="btn btn-secondary" onclick="createNewQuiz()">ทำชุดถัดไป</button>
             </div>
         </div>
     </div>
 
     {katex_scripts}
     <script>
-        const questions = {questions_json};
-        const totalQuestions = questions.length;
+        const quizBanks = {banks_json};
+        let currentBankIndex = 0;
+        let questions = [];
+        let totalQuestions = 0;
         let currentQuestionIndex = 0;
         let userAnswers = []; // Store user's answers {{questionIndex, selectedIndex, isCorrect}}
         let isReviewMode = false;
+
+        function updateQuizHeader(mode = 'quiz') {{
+            const titleEl = document.getElementById('quiz-title');
+            const subtitleEl = document.getElementById('quiz-subtitle');
+            if (mode === 'picker') {{
+                if (titleEl) titleEl.textContent = '{title}';
+                if (subtitleEl) subtitleEl.textContent = `เลือกชุดได้ ${{quizBanks.length}} ชุด`;
+                return;
+            }}
+            const bank = quizBanks[currentBankIndex];
+            if (titleEl) {{
+                titleEl.textContent = bank.title || '{title}';
+            }}
+            if (subtitleEl) {{
+                subtitleEl.textContent = `กำลังทำชุดที่ ${{currentBankIndex + 1}} / ${{quizBanks.length}} · ${{totalQuestions}} ข้อ`;
+            }}
+        }}
+
+        function renderBankPicker() {{
+            const sizes = quizBanks.map(b => (b.questions || []).length);
+            const sameSize = sizes.length && sizes.every(n => n === sizes[0]);
+            const sub = document.getElementById('bank-picker-sub');
+            if (sub) {{
+                sub.textContent = sameSize
+                    ? `มี ${{quizBanks.length}} ชุด ชุดละ ${{sizes[0]}} ข้อ · กดชุดที่ต้องการเริ่มทำได้เลย`
+                    : `มี ${{quizBanks.length}} ชุด · กดชุดที่ต้องการเริ่มทำได้เลย`;
+            }}
+            const list = document.getElementById('bank-list');
+            list.innerHTML = quizBanks.map((bank, idx) => `
+                <button class="bank-card" onclick="startBank(${{idx}})">
+                    <div class="bank-card-label">ชุดที่ ${{idx + 1}}</div>
+                    <div class="bank-card-title">${{bank.title}}</div>
+                    <div class="bank-card-meta">${{(bank.questions || []).length}} ข้อ · กดเพื่อเริ่มทำ</div>
+                </button>
+            `).join('');
+        }}
+
+        function showBankPicker() {{
+            isReviewMode = false;
+            document.getElementById('bank-picker').classList.add('show');
+            document.getElementById('quiz-content').style.display = 'none';
+            document.getElementById('completion-screen').classList.remove('show');
+            updateQuizHeader('picker');
+            renderBankPicker();
+            window.scrollTo({{ top: 0, behavior: 'smooth' }});
+        }}
+
+        function startBank(index) {{
+            if (index < 0 || index >= quizBanks.length) return;
+            currentBankIndex = index;
+            const bank = quizBanks[currentBankIndex];
+            isReviewMode = false;
+            currentQuestionIndex = 0;
+            userAnswers = [];
+            questions = bank.questions.map(q => ({{ ...q, options: [...q.options] }}));
+            totalQuestions = questions.length;
+
+            document.getElementById('bank-picker').classList.remove('show');
+            document.getElementById('completion-screen').classList.remove('show');
+            document.getElementById('quiz-content').style.display = 'block';
+            document.getElementById('score-value').textContent = `0/${{totalQuestions}}`;
+            updateQuizHeader('quiz');
+            renderQuestion();
+            window.scrollTo({{ top: 0, behavior: 'smooth' }});
+        }}
 
         function renderMath(target) {{
             if (!target || typeof renderMathInElement !== 'function') return;
@@ -583,7 +823,7 @@ def generate_html(quiz_data: dict, katex_assets: dict) -> str:
         }}
 
         function initQuiz() {{
-            renderQuestion();
+            showBankPicker();
         }}
 
         function renderQuestion() {{
@@ -670,15 +910,16 @@ def generate_html(quiz_data: dict, katex_assets: dict) -> str:
             let buttonsHtml = `
                 <div class="quiz-footer">
                     <div class="buttons">
-                        <div style="display: flex; gap: 12px;">
+                        <div style="display: flex; gap: 12px; flex-wrap: wrap;">
                             <button class="btn btn-secondary" onclick="previousQuestion()" ${{showPrevious ? '' : 'disabled'}}>
                                 Previous
                             </button>
+                            <button class="btn btn-secondary" onclick="showBankPicker()">เลือกชุดอื่น</button>
                         </div>
                         <div>
                             ${{showNext ? '<button class="btn btn-primary" onclick="nextQuestion()">Next</button>' : ''}}
-                            ${{showFinish ? '<button class="btn btn-primary" onclick="finishQuiz()">Finish Quiz</button>' : ''}}
-                            ${{showFinishReview ? '<button class="btn btn-primary" onclick="finishReview()">Finish Review</button>' : ''}}
+                            ${{showFinish ? '<button class="btn btn-primary" onclick="finishQuiz()">ดูผลคะแนน</button>' : ''}}
+                            ${{showFinishReview ? '<button class="btn btn-primary" onclick="finishReview()">กลับหน้าผลคะแนน</button>' : ''}}
                         </div>
                     </div>
                 </div>
@@ -699,6 +940,8 @@ def generate_html(quiz_data: dict, katex_assets: dict) -> str:
         }}
 
         function selectAnswer(selectedIndex) {{
+            if (isReviewMode || userAnswers[currentQuestionIndex] !== undefined) return;
+
             const question = questions[currentQuestionIndex];
             const isCorrect = selectedIndex === question.correctIndex;
 
@@ -711,6 +954,11 @@ def generate_html(quiz_data: dict, katex_assets: dict) -> str:
 
             // Re-render to show feedback
             renderQuestion();
+
+            // After the last question is answered, jump to the score screen
+            if (currentQuestionIndex === totalQuestions - 1) {{
+                setTimeout(() => finishQuiz(), 650);
+            }}
         }}
 
         function toggleHint() {{
@@ -762,9 +1010,44 @@ def generate_html(quiz_data: dict, katex_assets: dict) -> str:
             document.getElementById('wrong-value').textContent = wrongAnswers;
             document.getElementById('skipped-value').textContent = skipped;
 
+            // Render wrong / skipped review
+            const wrongList = document.getElementById('wrong-list');
+            let reviewHtml = '';
+            questions.forEach((q, idx) => {{
+                const ans = userAnswers[idx];
+                const letter = (i) => String.fromCharCode(65 + i);
+                if (!ans) {{
+                    reviewHtml += `
+                        <div class="wrong-item">
+                            <div class="wrong-item-q">ข้อ ${{idx + 1}}. ${{q.question}}</div>
+                            <div class="wrong-meta yours"><span class="label">คำตอบของคุณ:</span> ยังไม่ได้ตอบ</div>
+                            <div class="wrong-meta correct"><span class="label">เฉลย:</span> ${{letter(q.correctIndex)}}. ${{q.options[q.correctIndex]}}</div>
+                            <div class="wrong-explain">${{q.wrongExplanation || q.correctExplanation || q.explanation || ''}}</div>
+                        </div>
+                    `;
+                    return;
+                }}
+                if (!ans.isCorrect) {{
+                    reviewHtml += `
+                        <div class="wrong-item">
+                            <div class="wrong-item-q">ข้อ ${{idx + 1}}. ${{q.question}}</div>
+                            <div class="wrong-meta yours"><span class="label">คำตอบของคุณ:</span> ${{letter(ans.selectedIndex)}}. ${{q.options[ans.selectedIndex]}}</div>
+                            <div class="wrong-meta correct"><span class="label">เฉลย:</span> ${{letter(q.correctIndex)}}. ${{q.options[q.correctIndex]}}</div>
+                            <div class="wrong-explain">${{q.wrongExplanation || q.correctExplanation || q.explanation || ''}}</div>
+                        </div>
+                    `;
+                }}
+            }});
+            if (!reviewHtml) {{
+                reviewHtml = '<div class="wrong-empty">เยี่ยมมาก! ไม่มีข้อผิดในชุดนี้</div>';
+            }}
+            wrongList.innerHTML = reviewHtml;
+            renderMath(wrongList);
+
             // Show completion screen
             quizContent.style.display = 'none';
             completionScreen.classList.add('show');
+            window.scrollTo({{ top: 0, behavior: 'smooth' }});
         }}
 
         function reviewQuiz() {{
@@ -782,16 +1065,16 @@ def generate_html(quiz_data: dict, katex_assets: dict) -> str:
             showCompletionScreen();
         }}
 
-        function retakeQuiz() {{
-            isReviewMode = false;
-            currentQuestionIndex = 0;
-            userAnswers = [];
-            const quizContent = document.getElementById('quiz-content');
-            const completionScreen = document.getElementById('completion-screen');
+        function createNewQuiz() {{
+            const next = quizBanks.length > 1
+                ? (currentBankIndex + 1) % quizBanks.length
+                : currentBankIndex;
+            startBank(next);
+        }}
 
-            quizContent.style.display = 'block';
-            completionScreen.classList.remove('show');
-            renderQuestion();
+        // Keep old name as alias for compatibility
+        function retakeQuiz() {{
+            showBankPicker();
         }}
 
         // Initialize quiz on page load
@@ -808,7 +1091,9 @@ def convert_quiz(input_path: str, output_path: str) -> str:
     logger.info(f"Loading quiz from {input_path}")
     quiz_data = load_quiz_data(input_path)
 
-    logger.info(f"Generating HTML with {len(quiz_data['questions'])} questions")
+    banks = quiz_data.get("banks") or []
+    question_count = sum(len(bank.get("questions", [])) for bank in banks) or len(quiz_data.get("questions", []))
+    logger.info(f"Generating HTML with {len(banks) or 1} bank(s), {question_count} total questions")
     katex_assets = get_katex_assets()
     html = generate_html(quiz_data, katex_assets)
 
