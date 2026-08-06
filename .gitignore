@@ -78,6 +78,7 @@ logs/
 *.xlsx
 *.csv
 *.html
+!study/**/*.html
 *.apkg
 test_*.json
 test_*.mp3
