@@ -613,6 +613,66 @@ def generate_html(quiz_data: dict, katex_assets: dict) -> str:
         .question-container.active {{
             display: block;
         }}
+
+        .bank-picker {{
+            display: none;
+            text-align: left;
+        }}
+
+        .bank-picker.show {{
+            display: block;
+        }}
+
+        .bank-picker-title {{
+            font-size: 22px;
+            font-weight: 700;
+            color: #1a1a1a;
+            margin-bottom: 8px;
+        }}
+
+        .bank-picker-sub {{
+            font-size: 14px;
+            color: #6b7280;
+            margin-bottom: 18px;
+        }}
+
+        .bank-card {{
+            width: 100%;
+            text-align: left;
+            background: #fff;
+            border: 1px solid #e5e7eb;
+            border-radius: 14px;
+            padding: 14px 16px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: border-color 0.15s, box-shadow 0.15s, transform 0.15s;
+        }}
+
+        .bank-card:hover {{
+            border-color: #424cf7;
+            box-shadow: 0 6px 16px rgba(66, 76, 247, 0.12);
+            transform: translateY(-1px);
+        }}
+
+        .bank-card-label {{
+            font-size: 12px;
+            font-weight: 700;
+            color: #424cf7;
+            margin-bottom: 4px;
+        }}
+
+        .bank-card-title {{
+            font-size: 15px;
+            font-weight: 600;
+            color: #1f2430;
+            line-height: 1.45;
+            margin-bottom: 4px;
+        }}
+
+        .bank-card-meta {{
+            font-size: 13px;
+            color: #6b7280;
+        }}
     </style>
     {katex_styles}
 </head>
@@ -623,14 +683,20 @@ def generate_html(quiz_data: dict, katex_assets: dict) -> str:
             <div class="quiz-subtitle" id="quiz-subtitle">ชุดที่ 1</div>
         </div>
 
-        <div id="quiz-content">
+        <div id="bank-picker" class="bank-picker show">
+            <div class="bank-picker-title">เลือกชุดข้อสอบ</div>
+            <div class="bank-picker-sub" id="bank-picker-sub">กดชุดที่ต้องการเริ่มทำได้เลย</div>
+            <div id="bank-list"></div>
+        </div>
+
+        <div id="quiz-content" style="display:none;">
             <!-- Questions will be rendered here -->
         </div>
 
         <div id="completion-screen" class="completion-container">
             <div class="completion-icon">🎉</div>
             <div class="completion-title">ทำครบแล้ว!</div>
-            <div class="completion-subtitle">ดูผลคะแนนของคุณ แล้วกดสร้างควิซใหม่เพื่อเปลี่ยนไปชุดข้อสอบถัดไป</div>
+            <div class="completion-subtitle">ดูผลคะแนนและข้อผิด แล้วเลือกชุดถัดไปได้เลย</div>
 
             <div class="stats-grid">
                 <div class="stat-card score">
@@ -661,8 +727,9 @@ def generate_html(quiz_data: dict, katex_assets: dict) -> str:
             </div>
 
             <div class="completion-buttons">
-                <button class="btn btn-primary" onclick="createNewQuiz()">สร้างควิซใหม่ (ชุดถัดไป)</button>
-                <button class="btn btn-secondary" onclick="reviewQuiz()">ทบทวนข้อสอบ</button>
+                <button class="btn btn-primary" onclick="showBankPicker()">เลือกชุดข้อสอบ</button>
+                <button class="btn btn-secondary" onclick="reviewQuiz()">ทบทวนข้อสอบนี้</button>
+                <button class="btn btn-secondary" onclick="createNewQuiz()">ทำชุดถัดไป</button>
             </div>
         </div>
     </div>
@@ -671,22 +738,75 @@ def generate_html(quiz_data: dict, katex_assets: dict) -> str:
     <script>
         const quizBanks = {banks_json};
         let currentBankIndex = 0;
-        let questions = quizBanks[0].questions.map(q => ({{ ...q, options: [...q.options] }}));
-        let totalQuestions = questions.length;
+        let questions = [];
+        let totalQuestions = 0;
         let currentQuestionIndex = 0;
         let userAnswers = []; // Store user's answers {{questionIndex, selectedIndex, isCorrect}}
         let isReviewMode = false;
 
-        function updateQuizHeader() {{
-            const bank = quizBanks[currentBankIndex];
+        function updateQuizHeader(mode = 'quiz') {{
             const titleEl = document.getElementById('quiz-title');
             const subtitleEl = document.getElementById('quiz-subtitle');
+            if (mode === 'picker') {{
+                if (titleEl) titleEl.textContent = '{title}';
+                if (subtitleEl) subtitleEl.textContent = `เลือกชุดได้ ${{quizBanks.length}} ชุด`;
+                return;
+            }}
+            const bank = quizBanks[currentBankIndex];
             if (titleEl) {{
                 titleEl.textContent = bank.title || '{title}';
             }}
             if (subtitleEl) {{
-                subtitleEl.textContent = `ชุดที่ ${{currentBankIndex + 1}} / ${{quizBanks.length}} · ข้อสอบใหม่ทั้งชุด`;
+                subtitleEl.textContent = `กำลังทำชุดที่ ${{currentBankIndex + 1}} / ${{quizBanks.length}} · ${{totalQuestions}} ข้อ`;
             }}
+        }}
+
+        function renderBankPicker() {{
+            const sizes = quizBanks.map(b => (b.questions || []).length);
+            const sameSize = sizes.length && sizes.every(n => n === sizes[0]);
+            const sub = document.getElementById('bank-picker-sub');
+            if (sub) {{
+                sub.textContent = sameSize
+                    ? `มี ${{quizBanks.length}} ชุด ชุดละ ${{sizes[0]}} ข้อ · กดชุดที่ต้องการเริ่มทำได้เลย`
+                    : `มี ${{quizBanks.length}} ชุด · กดชุดที่ต้องการเริ่มทำได้เลย`;
+            }}
+            const list = document.getElementById('bank-list');
+            list.innerHTML = quizBanks.map((bank, idx) => `
+                <button class="bank-card" onclick="startBank(${{idx}})">
+                    <div class="bank-card-label">ชุดที่ ${{idx + 1}}</div>
+                    <div class="bank-card-title">${{bank.title}}</div>
+                    <div class="bank-card-meta">${{(bank.questions || []).length}} ข้อ · กดเพื่อเริ่มทำ</div>
+                </button>
+            `).join('');
+        }}
+
+        function showBankPicker() {{
+            isReviewMode = false;
+            document.getElementById('bank-picker').classList.add('show');
+            document.getElementById('quiz-content').style.display = 'none';
+            document.getElementById('completion-screen').classList.remove('show');
+            updateQuizHeader('picker');
+            renderBankPicker();
+            window.scrollTo({{ top: 0, behavior: 'smooth' }});
+        }}
+
+        function startBank(index) {{
+            if (index < 0 || index >= quizBanks.length) return;
+            currentBankIndex = index;
+            const bank = quizBanks[currentBankIndex];
+            isReviewMode = false;
+            currentQuestionIndex = 0;
+            userAnswers = [];
+            questions = bank.questions.map(q => ({{ ...q, options: [...q.options] }}));
+            totalQuestions = questions.length;
+
+            document.getElementById('bank-picker').classList.remove('show');
+            document.getElementById('completion-screen').classList.remove('show');
+            document.getElementById('quiz-content').style.display = 'block';
+            document.getElementById('score-value').textContent = `0/${{totalQuestions}}`;
+            updateQuizHeader('quiz');
+            renderQuestion();
+            window.scrollTo({{ top: 0, behavior: 'smooth' }});
         }}
 
         function renderMath(target) {{
@@ -703,7 +823,7 @@ def generate_html(quiz_data: dict, katex_assets: dict) -> str:
         }}
 
         function initQuiz() {{
-            renderQuestion();
+            showBankPicker();
         }}
 
         function renderQuestion() {{
@@ -790,10 +910,11 @@ def generate_html(quiz_data: dict, katex_assets: dict) -> str:
             let buttonsHtml = `
                 <div class="quiz-footer">
                     <div class="buttons">
-                        <div style="display: flex; gap: 12px;">
+                        <div style="display: flex; gap: 12px; flex-wrap: wrap;">
                             <button class="btn btn-secondary" onclick="previousQuestion()" ${{showPrevious ? '' : 'disabled'}}>
                                 Previous
                             </button>
+                            <button class="btn btn-secondary" onclick="showBankPicker()">เลือกชุดอื่น</button>
                         </div>
                         <div>
                             ${{showNext ? '<button class="btn btn-primary" onclick="nextQuestion()">Next</button>' : ''}}
@@ -945,35 +1066,18 @@ def generate_html(quiz_data: dict, katex_assets: dict) -> str:
         }}
 
         function createNewQuiz() {{
-            if (quizBanks.length > 1) {{
-                currentBankIndex = (currentBankIndex + 1) % quizBanks.length;
-            }}
-
-            const bank = quizBanks[currentBankIndex];
-            isReviewMode = false;
-            currentQuestionIndex = 0;
-            userAnswers = [];
-            questions = bank.questions.map(q => ({{ ...q, options: [...q.options] }}));
-            totalQuestions = questions.length;
-
-            const quizContent = document.getElementById('quiz-content');
-            const completionScreen = document.getElementById('completion-screen');
-            document.getElementById('score-value').textContent = `0/${{totalQuestions}}`;
-            updateQuizHeader();
-
-            quizContent.style.display = 'block';
-            completionScreen.classList.remove('show');
-            renderQuestion();
-            window.scrollTo({{ top: 0, behavior: 'smooth' }});
+            const next = quizBanks.length > 1
+                ? (currentBankIndex + 1) % quizBanks.length
+                : currentBankIndex;
+            startBank(next);
         }}
 
         // Keep old name as alias for compatibility
         function retakeQuiz() {{
-            createNewQuiz();
+            showBankPicker();
         }}
 
         // Initialize quiz on page load
-        updateQuizHeader();
         initQuiz();
     </script>
 </body>
