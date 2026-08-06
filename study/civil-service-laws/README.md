@@ -9,7 +9,7 @@
 | `SOURCES.md` | รายการแหล่งข้อมูลที่น่าเชื่อถือ |
 | `mindmap.md` / `mindmap.html` | แผนที่ความคิด |
 | `flashcards.json` / `flashcards.html` | บัตรคำท่องจำ |
-| `quiz.json` / `quiz.html` | แบบทดสอบปรนัย 15 ข้อ |
+| `quiz.json` / `quiz.html` | แบบทดสอบ 5 ชุด ชุดละ 30 ข้อ (หลังทำเสร็จแสดงคะแนน+ข้อผิด) |
 
 ## วิธีใช้
 
