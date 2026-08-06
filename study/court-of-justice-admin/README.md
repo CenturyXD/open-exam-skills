@@ -14,6 +14,7 @@
 
 ## วิธีใช้
 
+0. เปิด [เมนูหลัก](../index.html) แล้วเลือกอันที่ต้องการ
 1. อ่าน `summary.html`
 2. ดูโครงใน `mindmap.html`
 3. ท่องด้วย `flashcards.html`
@@ -21,6 +22,7 @@
 
 ### อ่านบนมือถือ (Cloud)
 
+- **เมนูหลัก:** https://htmlpreview.github.io/?https://github.com/CenturyXD/open-exam-skills/blob/cursor/court-justice-admin-act-7242/study/index.html
 - สรุป: https://htmlpreview.github.io/?https://github.com/CenturyXD/open-exam-skills/blob/cursor/court-justice-admin-act-7242/study/court-of-justice-admin/summary.html
 - แผนที่ความคิด: https://htmlpreview.github.io/?https://github.com/CenturyXD/open-exam-skills/blob/cursor/court-justice-admin-act-7242/study/court-of-justice-admin/mindmap.html
 - บัตรคำ: https://htmlpreview.github.io/?https://github.com/CenturyXD/open-exam-skills/blob/cursor/court-justice-admin-act-7242/study/court-of-justice-admin/flashcards.html
