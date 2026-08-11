@@ -6,17 +6,25 @@
 
 | ไฟล์ | คำอธิบาย |
 |------|----------|
+| `SUMMARY.md` / `summary.html` | **สรุปฉบับละเอียด (เริ่มที่นี่)** |
 | `SOURCES.md` | รายการแหล่งข้อมูลอย่างเป็นทางการ + น้ำหนักโดเมน |
 | `mindmap.md` / `mindmap.html` | แผนที่ความคิด 5 โดเมน |
-| `flashcards.json` / `flashcards.html` | บัตรคำท่องจำ |
+| `flashcards.json` / `flashcards.html` | บัตรคำท่องจำ 40 ใบ |
 | `quiz.json` / `quiz.html` | แบบทดสอบปรนัย 20 ข้อ |
 
 ## วิธีใช้
 
-1. อ่าน `SOURCES.md` เพื่อรู้โครงข้อสอบและวันที่เปลี่ยนโดเมน (1 ก.ย. 2026)
-2. เปิด `mindmap.html` เพื่อดูภาพรวม 5 โดเมน
+1. อ่าน `summary.html`
+2. ดูโครงใน `mindmap.html`
 3. ท่องด้วย `flashcards.html`
 4. ทดสอบด้วย `quiz.html`
+
+### อ่านบนมือถือ / เปิดผ่าน URL (htmlpreview)
+
+- **สรุป:** https://htmlpreview.github.io/?https://github.com/CenturyXD/open-exam-skills/blob/cursor/isc2-cc-study-pack-bed1/study/isc2-cc/summary.html
+- แผนที่ความคิด: https://htmlpreview.github.io/?https://github.com/CenturyXD/open-exam-skills/blob/cursor/isc2-cc-study-pack-bed1/study/isc2-cc/mindmap.html
+- บัตรคำ: https://htmlpreview.github.io/?https://github.com/CenturyXD/open-exam-skills/blob/cursor/isc2-cc-study-pack-bed1/study/isc2-cc/flashcards.html
+- ข้อสอบ: https://htmlpreview.github.io/?https://github.com/CenturyXD/open-exam-skills/blob/cursor/isc2-cc-study-pack-bed1/study/isc2-cc/quiz.html
 
 ## สร้าง HTML ใหม่ (ถ้าแก้ไข JSON/Markdown)
 
@@ -38,7 +46,7 @@ cd ../quiz && python main.py -i ../../study/isc2-cc/quiz.json -o ../../study/isc
 
 1. สมัครสมาชิก Candidate ของ ISC² และเรียน Official Self-Paced Training (ฟรีภายใต้ One Million Certified pledge)
 2. ทบทวน Official Exam Outline ทีละโดเมน
-3. ใช้ mindmap → flashcards → quiz ในชุดนี้วนรอบจุดอ่อน
+3. ใช้ summary → mindmap → flashcards → quiz ในชุดนี้วนรอบจุดอ่อน
 4. จองสอบที่ Pearson VUE เมื่อพร้อม (เป้าหมาย 700/1000)
 
 ## คำเตือน
