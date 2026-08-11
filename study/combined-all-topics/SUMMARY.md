@@ -26,22 +26,25 @@
 
 ## 1) แผนที่ชุดเรียนทั้งหมด
 
-| # | หัวข้อ | โฟลเดอร์ | SUMMARY |
-|---|--------|----------|---------|
-| 1 | พ.ร.บ.ระเบียบข้าราชการพลเรือน พ.ศ. 2551 | `study/civil-service-act-2551/` | [SUMMARY.md](../civil-service-act-2551/SUMMARY.md) |
-| 2 | พ.ร.บ.ระเบียบบริหารราชการศาลยุติธรรม พ.ศ. 2543 | `study/court-of-justice-admin/` | [SUMMARY.md](../court-of-justice-admin/SUMMARY.md) |
-| 3 | ระเบียบ/ประกาศ/คำสั่ง ก.บ.ศ. | `study/jcac-regulations/` | [SUMMARY.md](../jcac-regulations/SUMMARY.md) |
-| 4 | ระเบียบ/ประกาศ/คำสั่ง ก.ศ. | `study/jcsc-regulations/` | [SUMMARY.md](../jcsc-regulations/SUMMARY.md) |
-| 5 | ระเบียบ/ประกาศ/คำสั่ง สำนักงานศาลยุติธรรม | `study/oj-regulations/` | [SUMMARY.md](../oj-regulations/SUMMARY.md) |
-| 6 | ข้อกำหนดประธานศาลฎีกาด้าน IT | `study/sc-president-it/` | [SUMMARY.md](../sc-president-it/SUMMARY.md) |
-| 7 | กฎหมาย/นโยบาย IT ทั่วไป | `study/it-laws-policies/` | [SUMMARY.md](../it-laws-policies/SUMMARY.md) |
-| 8 | กฎหมายปฏิบัติราชการ (ชุดเสริม) | `study/civil-service-laws/` | [SUMMARY.md](../civil-service-laws/SUMMARY.md) |
-| 9 | **สอบรวม (ชุดนี้)** | `study/combined-all-topics/` | SUMMARY.md (ไฟล์นี้) |
+> **แนะนำบนมือถือ:** เปิด [`summary.html`](./summary.html) แล้วกดปุ่มไปแต่ละหัวข้อ (สรุป / ควิซ / บัตรคำ / mindmap)  
+> หรือเปิดเมนูหลัก [`../index.html`](../index.html)
+
+| # | หัวข้อ | โฟลเดอร์ | กดเปิดหน้า |
+|---|--------|----------|------------|
+| 1 | พ.ร.บ.ระเบียบข้าราชการพลเรือน พ.ศ. 2551 | `study/civil-service-act-2551/` | [สรุป](../civil-service-act-2551/summary.html) · [ควิซ](../civil-service-act-2551/quiz.html) |
+| 2 | พ.ร.บ.ระเบียบบริหารราชการศาลยุติธรรม พ.ศ. 2543 | `study/court-of-justice-admin/` | [สรุป](../court-of-justice-admin/summary.html) · [ควิซ](../court-of-justice-admin/quiz.html) |
+| 3 | ระเบียบ/ประกาศ/คำสั่ง ก.บ.ศ. | `study/jcac-regulations/` | [สรุป](../jcac-regulations/summary.html) · [ควิซ](../jcac-regulations/quiz.html) |
+| 4 | ระเบียบ/ประกาศ/คำสั่ง ก.ศ. | `study/jcsc-regulations/` | [สรุป](../jcsc-regulations/summary.html) · [ควิซ](../jcsc-regulations/quiz.html) |
+| 5 | ระเบียบ/ประกาศ/คำสั่ง สำนักงานศาลยุติธรรม | `study/oj-regulations/` | [สรุป](../oj-regulations/summary.html) · [ควิซ](../oj-regulations/quiz.html) |
+| 6 | ข้อกำหนดประธานศาลฎีกาด้าน IT | `study/sc-president-it/` | [สรุป](../sc-president-it/summary.html) · [ควิซ](../sc-president-it/quiz.html) |
+| 7 | กฎหมาย/นโยบาย IT ทั่วไป | `study/it-laws-policies/` | [สรุป](../it-laws-policies/summary.html) · [ควิซ](../it-laws-policies/quiz.html) |
+| 8 | กฎหมายปฏิบัติราชการ (ชุดเสริม) | `study/civil-service-laws/` | [สรุป](../civil-service-laws/summary.html) · [ควิซ](../civil-service-laws/quiz.html) |
+| 9 | **สอบรวม (ชุดนี้)** | `study/combined-all-topics/` | [สรุปปุ่ม](./summary.html) · [ควิซรวม](./quiz.html) |
 
 ### วิธีใช้ชุดสอบรวม
-1. อ่าน SUMMARY รายหัวข้อที่ยังไม่แม่น  
-2. ทำ `quiz.html` ในชุด `combined-all-topics/` (เลือกชุด 1–5 · ชุดละ 30 ข้อ คละหัวข้อ)  
-3. ดูข้อผิด → กลับไปอ่าน SUMMARY หัวข้อนั้น  
+1. เปิด `summary.html` → กดปุ่มไปหัวข้อที่ยังไม่แม่น  
+2. ทำ `quiz.html` ในชุดนี้ (เลือกชุด 1–5 · ชุดละ 30 ข้อ คละหัวข้อ)  
+3. ดูข้อผิด → กดปุ่มกลับไปอ่านสรุปหัวข้อนั้น  
 4. ท่อง `flashcards.html` และ `mindmap.html` ก่อนสอบจริง
 
 ---
