@@ -48,6 +48,10 @@
     .badge {
       flex: 0 0 auto; min-width: 2.3rem; height: 2.3rem; border-radius: 12px;
       display: grid; place-items: center; font-weight: 800; color: #fff; background: var(--b);
+      font-size: 0.85rem; padding: 0 0.35rem;
+    }
+    .pack:first-child {
+      border-color: #c4a dig;
     }
     .pack:nth-child(odd) .badge { background: var(--a); }
     .pack-title { margin: 0; font-size: 1.02rem; line-height: 1.35; }
@@ -82,6 +86,7 @@
     const BRANCH = "cursor/court-justice-admin-act-7242";
     const REPO = "CenturyXD/open-exam-skills";
     const packs = [
+      { n: 0, slug: "combined-all-topics", title: "ข้อสอบรวมทุกหัวข้อ", sub: "คละทุกหัวข้อ · ฝึกแบบสอบรวม · 5 ชุด × 30 ข้อ" },
       { n: 1, slug: "civil-service-act-2551", title: "พ.ร.บ.ระเบียบข้าราชการพลเรือน พ.ศ. 2551", sub: "นิยาม · ก.พ./ก.พ.ค. · จรรยา · วินัย · คุณธรรม" },
       { n: 2, slug: "court-of-justice-admin", title: "พ.ร.บ.ระเบียบบริหารราชการศาลยุติธรรม พ.ศ. 2543", sub: "สำนักงานศาลยุติธรรม · ก.บ.ศ. · ก.ศ. · เลขาธิการ · แก้ไข 2–4" },
       { n: 3, slug: "jcac-regulations", title: "ระเบียบ ประกาศ คำสั่ง ของ ก.บ.ศ.", sub: "อำนาจ ม.17 · งบประมาณ พัสดุ · แบบพิมพ์ · เบี้ยประชุม" },
@@ -104,7 +109,7 @@
     root.innerHTML = packs.map(p => `
       <section class="pack">
         <div class="pack-head">
-          <div class="badge">${p.n}</div>
+          <div class="badge">${p.n === 0 ? "รวม" : p.n}</div>
           <div>
             <h2 class="pack-title">${p.title}</h2>
             <p class="pack-sub">${p.sub}</p>
