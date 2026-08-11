@@ -1,0 +1,165 @@
+{
+  "title": "ISC² Certified in Cybersecurity (CC)",
+  "flashcards": [
+    {
+      "question": "ISC² CC ข้อสอบมีกี่ชั่วโมง กี่ข้อ และคะแนนผ่านเท่าไร?",
+      "answer": "• 2 ชั่วโมง\n• 100–125 ข้อ (CAT)\n• ผ่านที่ 700 จาก 1000\n• ที่มา: Official CC Exam Outline"
+    },
+    {
+      "question": "โดเมนปัจจุบันของ CC (ก่อน 1 ก.ย. 2026) มีอะไรบ้าง และน้ำหนักเท่าไร?",
+      "answer": "1. Security Principles — 26%\n2. BC, DR & Incident Response — 10%\n3. Access Controls Concepts — 22%\n4. Network Security — 24%\n5. Security Operations — 18%"
+    },
+    {
+      "question": "CIA triad คืออะไร?",
+      "answer": "• Confidentiality — จำกัดการเข้าถึงเฉพาะผู้มีสิทธิ์\n• Integrity — ข้อมูลถูกต้อง ไม่ถูกแก้ไขโดยไม่ได้รับอนุญาต\n• Availability — ระบบ/ข้อมูลพร้อมใช้เมื่อต้องการ"
+    },
+    {
+      "question": "Authentication, Authorization, Accounting (AAA) ต่างกันอย่างไร?",
+      "answer": "• Authentication — พิสูจน์ตัวตน (ใคร)\n• Authorization — กำหนดสิทธิ์ทำอะไรได้\n• Accounting — บันทึก/ติดตามการใช้งาน"
+    },
+    {
+      "question": "Non-repudiation คืออะไร?",
+      "answer": "หลักที่ทำให้ผู้กระทำไม่สามารถปฏิเสธการกระทำหรือธุรกรรมได้ เช่น การใช้ลายเซ็นดิจิทัล"
+    },
+    {
+      "question": "MFA (Multi-Factor Authentication) ใช้ปัจจัยอะไรบ้าง?",
+      "answer": "อย่างน้อย 2 ประเภทต่างกัน เช่น\n• Something you know (รหัสผ่าน)\n• Something you have (token/OTP)\n• Something you are (biometrics)"
+    },
+    {
+      "question": "ขั้นตอนหลักของ risk management ตามแนว CC มีอะไรบ้าง?",
+      "answer": "• ระบุความเสี่ยง (identification)\n• ประเมิน (assessment)\n• จัดการ/รักษา (treatment)\n• คำนึงถึงลำดับความสำคัญและ risk tolerance ขององค์กร"
+    },
+    {
+      "question": "ทางเลือกในการจัดการความเสี่ยง (risk treatment) มีอะไรบ้าง?",
+      "answer": "• Mitigate / reduce — ลดด้วย control\n• Transfer — โอน เช่น ประกัน\n• Avoid — เลี่ยงกิจกรรมที่เสี่ยง\n• Accept — ยอมรับเมื่ออยู่ใน tolerance"
+    },
+    {
+      "question": "Security controls แบ่งเป็นกี่ประเภท อะไรบ้าง?",
+      "answer": "• Technical (logical) — firewall, encryption, MFA\n• Administrative (managerial) — นโยบาย, อบรม, กระบวนการ\n• Physical — กล้อง, บัตรผ่าน, ล็อกประตู"
+    },
+    {
+      "question": "Policies, Procedures, Standards, Regulations ต่างกันอย่างไร?",
+      "answer": "• Policy — ทิศทาง/กฎระดับสูงขององค์กร\n• Standard — ข้อกำหนดที่ต้องทำตาม (เช่น ISO)\n• Procedure — ขั้นตอนปฏิบัติละเอียด\n• Regulations/laws — ข้อบังคับทางกฎหมายภายนอก"
+    },
+    {
+      "question": "ISC² Code of Ethics มีหลักสำคัญอะไร?",
+      "answer": "• Protect society, the common good, necessary public trust and confidence, and the infrastructure\n• Act honorably, honestly, justly, responsibly, and legally\n• Provide diligent and competent service to principals\n• Advance and protect the profession"
+    },
+    {
+      "question": "Business Continuity (BC) ต่างจาก Disaster Recovery (DR) อย่างไร?",
+      "answer": "• BC — คงการดำเนินธุรกิจ/กระบวนการสำคัญให้ต่อเนื่อง\n• DR — กู้คืนระบบ IT/โครงสร้างพื้นฐานหลังเหตุภัยพิบัติ\n• DR มักเป็นส่วนหนึ่งที่สนับสนุน BC"
+    },
+    {
+      "question": "วัตถุประสงค์หลักของ Incident Response คืออะไร?",
+      "answer": "ตรวจจับ จำกัดความเสียหาย กำจัดภัยคุกคาม กู้คืน และเรียนรู้จากเหตุการณ์ เพื่อลดผลกระทบต่อองค์กร"
+    },
+    {
+      "question": "ขั้นตอน Incident Response ที่พบบ่อยมีอะไรบ้าง?",
+      "answer": "1. Preparation\n2. Detection & Analysis\n3. Containment\n4. Eradication\n5. Recovery\n6. Lessons learned / post-incident"
+    },
+    {
+      "question": "Principle of Least Privilege (PoLP) คืออะไร?",
+      "answer": "ให้สิทธิ์ขั้นต่ำที่จำเป็นต่อการทำงานเท่านั้น ไม่ให้สิทธิ์เกินความต้องการของบทบาท"
+    },
+    {
+      "question": "Segregation / Separation of Duties (SoD) คืออะไร?",
+      "answer": "แยกหน้าที่สำคัญออกจากกัน เพื่อไม่ให้คนเดียวทำครบวงจรจนเกิด fraud หรือผิดพลาดโดยไม่มีผู้ตรวจสอบ"
+    },
+    {
+      "question": "DAC, MAC, RBAC ต่างกันอย่างไร?",
+      "answer": "• DAC — เจ้าของทรัพยากรกำหนดสิทธิ์\n• MAC — ระบบกำหนดตาม label/clearance (บังคับ)\n• RBAC — ให้สิทธิ์ตามบทบาท (role) ในองค์กร"
+    },
+    {
+      "question": "ตัวอย่าง physical access controls มีอะไรบ้าง?",
+      "answer": "• ระบบบัตรผ่าน / gate entry\n• ออกแบบสภาพแวดล้อม (CPTED)\n• รปภ., CCTV, สัญญาณเตือน, logs\n• แยก authorized vs unauthorized personnel"
+    },
+    {
+      "question": "OSI model มีกี่ชั้น อะไรบ้าง (จากล่างขึ้นบน)?",
+      "answer": "7 ชั้น:\n1. Physical\n2. Data Link\n3. Network\n4. Transport\n5. Session\n6. Presentation\n7. Application"
+    },
+    {
+      "question": "TCP/IP model มีกี่ชั้นหลัก?",
+      "answer": "โดยทั่วไป 4 ชั้น:\n• Network Access / Link\n• Internet\n• Transport\n• Application"
+    },
+    {
+      "question": "พอร์ตมาตรฐานที่ควรจำ: HTTP, HTTPS, SSH, DNS, RDP?",
+      "answer": "• HTTP 80\n• HTTPS 443\n• SSH 22\n• DNS 53\n• RDP 3389"
+    },
+    {
+      "question": "DDoS, virus, worm, Trojan ต่างกันอย่างไร?",
+      "answer": "• DDoS — โจมตีให้บริการล่มด้วยทราฟฟิกจำนวนมาก\n• Virus — แพร่เมื่อไฟล์/โปรแกรมติดเชื้อถูกเรียกใช้\n• Worm — แพร่เองผ่านเครือข่ายโดยไม่ต้องไฟล์โฮสต์\n• Trojan — แฝงในโปรแกรมที่ดูถูกต้อง"
+    },
+    {
+      "question": "MITM (Man-in-the-Middle) คืออะไร?",
+      "answer": "ผู้โจมตีแทรกตัวกลางระหว่างสองฝ่ายเพื่อดักฟังหรือแก้ไขข้อมูลที่แลกเปลี่ยนโดยที่เหยื่อไม่รู้ตัว"
+    },
+    {
+      "question": "IDS กับ IPS ต่างกันอย่างไร? HIDS กับ NIDS ล่ะ?",
+      "answer": "• IDS — ตรวจจับและแจ้งเตือน\n• IPS — ตรวจจับและป้องกัน/บล็อกได้\n• HIDS — ติดตั้งบนโฮสต์\n• NIDS — เฝ้าดูทราฟฟิกเครือข่าย"
+    },
+    {
+      "question": "Defense in Depth คืออะไร?",
+      "answer": "วางชั้น control หลายระดับ (physical, technical, administrative) เพื่อว่าหากชั้นหนึ่งพลาด ยังมีชั้นอื่นป้องกัน"
+    },
+    {
+      "question": "DMZ, VLAN, VPN, micro-segmentation ใช้ทำอะไร?",
+      "answer": "• DMZ — โซนกลางระหว่างเครือข่ายภายในกับอินเทอร์เน็ต\n• VLAN — แยกเครือข่ายเชิงตรรกะ\n• VPN — อุโมงค์เข้ารหัสระยะไกล\n• Micro-segmentation — แยก workload ละเอียดขึ้น"
+    },
+    {
+      "question": "SaaS, PaaS, IaaS ความรับผิดชอบของผู้ให้บริการต่างกันอย่างไร?",
+      "answer": "• SaaS — ผู้ให้บริการดูแลแอปเกือบทั้งหมด\n• PaaS — ผู้ให้บริการดูแลแพลตฟอร์ม ผู้ใช้ดูแลแอป\n• IaaS — ผู้ให้บริการดูแลโครงสร้างพื้นฐาน ผู้ใช้ดูแล OS/แอป\n• ใช้แนวคิด shared responsibility / shared security model"
+    },
+    {
+      "question": "Symmetric กับ Asymmetric encryption ต่างกันอย่างไร?",
+      "answer": "• Symmetric — กุญแจเดียวใช้เข้ารหัสและถอดรหัส (เร็ว)\n• Asymmetric — คู่กุญแจสาธารณะ/ส่วนตัว (เหมาะแลกกุญแจ/ลายเซ็น)"
+    },
+    {
+      "question": "Hashing ใช้ทำอะไร และต่างจาก encryption อย่างไร?",
+      "answer": "• Hash — one-way สร้างค่า digest เพื่อตรวจ integrity หรือเก็บรหัสผ่าน\n• Encryption — สามารถถอดกลับได้ด้วยกุญแจ\n• Hash ไม่ได้ออกแบบให้ถอดกลับ"
+    },
+    {
+      "question": "Data handling ที่เกี่ยวกับ classification / labeling / retention / destruction คืออะไร?",
+      "answer": "• Classification — จัดระดับความลับของข้อมูล\n• Labeling — ติดป้ายระดับให้ผู้ใช้รู้\n• Retention — กำหนดระยะเก็บ\n• Destruction — ทำลายอย่างปลอดภัยเมื่อหมดอายุ"
+    },
+    {
+      "question": "System hardening มีองค์ประกอบสำคัญอะไร?",
+      "answer": "• กำหนด configuration baselines\n• อัปเดตและแพตช์ช่องโหว่\n• ปิดบริการ/พอร์ตที่ไม่จำเป็น\n• บริหาร configuration อย่างต่อเนื่อง"
+    },
+    {
+      "question": "นโยบายความปลอดภัยที่พบบ่อยใน Domain 5 มีอะไรบ้าง?",
+      "answer": "• Data handling policy\n• Password policy\n• Acceptable Use Policy (AUP)\n• BYOD policy\n• Change management policy\n• Privacy policy"
+    },
+    {
+      "question": "Change management ควรมีองค์ประกอบอะไร?",
+      "answer": "• Documentation\n• Approval ก่อนเปลี่ยน\n• Rollback plan หากล้มเหลว"
+    },
+    {
+      "question": "Security awareness training สำคัญอย่างไร?",
+      "answer": "ช่วยให้พนักงานรู้ทัน social engineering, ปกป้องรหัสผ่าน และลดความเสี่ยงจากมนุษย์ซึ่งมักเป็นจุดอ่อนขององค์กร"
+    },
+    {
+      "question": "ตัวอย่าง social engineering ที่ควรจำ?",
+      "answer": "• Phishing / spear phishing\n• Pretexting\n• Tailgating / piggybacking\n• Impersonation\n• Baiting"
+    },
+    {
+      "question": "โดเมน CC ฉบับใหม่ (มีผล 1 ก.ย. 2026) เปลี่ยนอะไร?",
+      "answer": "• Security Principles 24%\n• Security Governance 17.3% (รวม BC/DR, awareness, GRC metrics)\n• IAM Concepts 20%\n• Networking and Cloud Security 21.3%\n• Security Operations and Incident Response 17.3%"
+    },
+    {
+      "question": "Zero Trust (ZT) ในแนวคิดเครือข่ายหมายถึงอะไร?",
+      "answer": "ไม่เชื่อถือโดยอัตโนมัติแม้ในเครือข่ายภายใน — ตรวจสอบตัวตนและสิทธิ์ทุกร้องขอ ตามหลัก never trust, always verify"
+    },
+    {
+      "question": "Cloud characteristics หลักตามแนวคิดมาตรฐานมีอะไรบ้าง?",
+      "answer": "• On-demand self-service\n• Broad network access\n• Resource pooling\n• Rapid elasticity\n• Measured service"
+    },
+    {
+      "question": "Identity life cycle ประกอบด้วยขั้นอะไร?",
+      "answer": "• Roles definition\n• Provision (สร้างบัญชี/สิทธิ์)\n• Review (ทบทวนสิทธิ์)\n• Deprovision (ยกเลิกเมื่อออก/เปลี่ยนบทบาท)"
+    },
+    {
+      "question": "ก่อนสอบ CC ควรทำอะไรตามแนวทาง ISC²?",
+      "answer": "1. อ่าน Official Exam Outline ฉบับที่ตรงวันสอบ\n2. เรียน Official Self-Paced Training (ถ้าเข้าถึงได้)\n3. ทบทวน ethics และศัพท์โดเมน\n4. จองสอบ Pearson VUE เมื่อพร้อม"
+    }
+  ]
+}
