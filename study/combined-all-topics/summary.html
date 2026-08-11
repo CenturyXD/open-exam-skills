@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
+<title>สรุปรวมทุกหัวข้อ — กดปุ่มไปยังแต่ละชุด</title>
+<style>
+:root {
+  --accent:#5a2a4a; --bg:#f6f3ee; --ink:#1f2430; --muted:#5d6673;
+  --card:#fff; --line:#ddd6cb; --soft:#f3e8ef; --btn:#1a4f7a;
+}
+* { box-sizing:border-box; }
+body {
+  margin:0; font-family:Sarabun,Noto Sans Thai,Tahoma,sans-serif; color:var(--ink); line-height:1.65;
+  background:radial-gradient(circle at top right,#ebe4d8 0%,transparent 42%), linear-gradient(180deg,#faf8f4 0%,var(--bg) 100%);
+  padding:1rem 1rem 3rem;
+}
+.wrap { max-width:760px; margin:0 auto; }
+header {
+  background:linear-gradient(135deg,#5a2a4a,#1a4f7a); color:#fff; border-radius:18px;
+  padding:1.2rem; margin-bottom:1rem; box-shadow:0 10px 24px rgba(90,42,74,.2);
+}
+header h1 { margin:0; font-size:1.18rem; line-height:1.35; }
+header p { margin:.4rem 0 0; opacity:.95; font-size:.92rem; }
+.topnav a {
+  display:inline-block; text-decoration:none; background:#fff; border:1px solid var(--line);
+  color:#1f3b4d; border-radius:999px; padding:.45rem .85rem; font-weight:700; font-size:.9rem; margin:0 .4rem .8rem 0;
+}
+nav.jump {
+  display:grid; grid-template-columns:1fr 1fr; gap:.5rem; margin:0 0 1rem;
+}
+nav.jump a {
+  display:block; text-decoration:none; background:var(--card); border:1px solid var(--line);
+  color:var(--accent); border-radius:12px; padding:.6rem .7rem; font-weight:700; font-size:.84rem;
+}
+section {
+  background:var(--card); border:1px solid var(--line); border-radius:16px; padding:1rem; margin-bottom:.9rem;
+}
+h2 { margin:0 0 .75rem; font-size:1.05rem; color:var(--accent); }
+h3 { margin:0 0 .25rem; font-size:1rem; line-height:1.35; }
+.topic-card {
+  display:flex; gap:.75rem; border:1px solid var(--line); border-radius:14px;
+  padding:.85rem; margin-bottom:.65rem; background:#fbfaf7;
+}
+.topic-num {
+  flex:0 0 auto; width:2.2rem; height:2.2rem; border-radius:10px; background:var(--accent);
+  color:#fff; display:grid; place-items:center; font-weight:800;
+}
+.topic-body { flex:1; min-width:0; }
+.topic-body p { margin:0 0 .55rem; color:var(--muted); font-size:.86rem; }
+.btns { display:flex; flex-wrap:wrap; gap:.4rem; }
+.btn {
+  display:inline-block; text-decoration:none; border:1px solid var(--line); background:#fff;
+  color:var(--btn); border-radius:999px; padding:.45rem .75rem; font-weight:700; font-size:.85rem;
+}
+.btn.primary { background:var(--btn); color:#fff; border-color:var(--btn); }
+.btn.big { padding:.7rem 1rem; font-size:.92rem; }
+.combo-actions { display:flex; flex-wrap:wrap; gap:.5rem; margin-top:.85rem; }
+.mini-btn {
+  display:inline-block; text-decoration:none; background:var(--soft); color:var(--accent);
+  border:1px solid #d4b3c6; border-radius:999px; padding:.35rem .7rem; font-weight:700; font-size:.85rem;
+}
+.table-wrap { overflow-x:auto; -webkit-overflow-scrolling:touch; }
+table { width:100%; border-collapse:collapse; font-size:.9rem; min-width:280px; margin:.5rem 0; }
+th,td { border:1px solid var(--line); padding:.5rem; vertical-align:top; text-align:left; }
+th { background:#f3e8ef; }
+.tip { background:#fff4e5; color:#7a4b12; border-left:4px solid #e0a454; border-radius:10px; padding:.7rem; margin:.7rem 0; }
+code { background:#eef2f6; padding:.05rem .3rem; border-radius:5px; }
+@media (min-width:720px) { nav.jump { grid-template-columns:repeat(3,1fr); } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="topnav">
+    <a href="../index.html" id="back-menu">← กลับเมนูหลัก</a>
+    <a data-path="quiz.html" href="quiz.html">ข้อสอบรวม</a>
+  </div>
+  <header>
+    <h1>สรุปรวมทุกหัวข้อ</h1>
+    <p>กดปุ่มด้านล่างเพื่อเปิดสรุป / ควิซ / บัตรคำ ของแต่ละชุด</p>
+  </header>
+
+  <nav class="jump"><a href="#map">แผนที่ชุดเรียน (ปุ่ม)</a><a href="#sec2">พ.ร.บ.ระเบียบข้าราชการพล…</a><a href="#sec3">พ.ร.บ.ระเบียบบริหารราชกา…</a><a href="#sec4">ระเบียบ/ประกาศ/คำสั่ง ก.…</a><a href="#sec5">ระเบียบ/ประกาศ/คำสั่ง ก.ศ.</a><a href="#sec6">ระเบียบ/ประกาศ/คำสั่ง สำ…</a><a href="#sec7">ข้อกำหนดประธานศาลฎีกาด้า…</a><a href="#sec8">กฎหมาย/นโยบาย IT ทั่วไป</a><a href="#sec9">กฎหมายปฏิบัติราชการ (ชุด…</a><a href="#sec10">ตารางเปรียบเทียบองค์กรแล…</a><a href="#sec11">ตารางเปรียบเทียบวันที่</a><a href="#sec12">แผนจำเร็วก่อนสอบรวม</a><a href="#s13">วิธีใช้คู่กับไฟล์อื่นในช…</a></nav>
+
+  <section id="map">
+    <h2>1) แผนที่ชุดเรียน — กดปุ่มไปยังหน้านั้น</h2>
+    
+    <article class="topic-card">
+      <div class="topic-num">1</div>
+      <div class="topic-body">
+        <h3>พ.ร.บ.ระเบียบข้าราชการพลเรือน พ.ศ. 2551</h3>
+        <p>นิยาม · ก.พ./ก.พ.ค. · จรรยา · วินัย</p>
+        <div class="btns">
+          <a class="btn primary" data-path="../civil-service-act-2551/summary.html" href="../civil-service-act-2551/summary.html">สรุปละเอียด</a>
+          <a class="btn" data-path="../civil-service-act-2551/quiz.html" href="../civil-service-act-2551/quiz.html">ควิซ</a>
+          <a class="btn" data-path="../civil-service-act-2551/flashcards.html" href="../civil-service-act-2551/flashcards.html">บัตรคำ</a>
+          <a class="btn" data-path="../civil-service-act-2551/mindmap.html" href="../civil-service-act-2551/mindmap.html">mindmap</a>
+        </div>
+      </div>
+    </article>
+    <article class="topic-card">
+      <div class="topic-num">2</div>
+      <div class="topic-body">
+        <h3>พ.ร.บ.ระเบียบบริหารราชการศาลยุติธรรม พ.ศ. 2543</h3>
+        <p>สำนักงาน · ก.บ.ศ. · ก.ศ. · เลขาธิการ</p>
+        <div class="btns">
+          <a class="btn primary" data-path="../court-of-justice-admin/summary.html" href="../court-of-justice-admin/summary.html">สรุปละเอียด</a>
+          <a class="btn" data-path="../court-of-justice-admin/quiz.html" href="../court-of-justice-admin/quiz.html">ควิซ</a>
+          <a class="btn" data-path="../court-of-justice-admin/flashcards.html" href="../court-of-justice-admin/flashcards.html">บัตรคำ</a>
+          <a class="btn" data-path="../court-of-justice-admin/mindmap.html" href="../court-of-justice-admin/mindmap.html">mindmap</a>
+        </div>
+      </div>
+    </article>
+    <article class="topic-card">
+      <div class="topic-num">3</div>
+      <div class="topic-body">
+        <h3>ระเบียบ/ประกาศ/คำสั่ง ก.บ.ศ.</h3>
+        <p>ม.17 · งบประมาณ · พัสดุ · เบี้ยประชุม</p>
+        <div class="btns">
+          <a class="btn primary" data-path="../jcac-regulations/summary.html" href="../jcac-regulations/summary.html">สรุปละเอียด</a>
+          <a class="btn" data-path="../jcac-regulations/quiz.html" href="../jcac-regulations/quiz.html">ควิซ</a>
+          <a class="btn" data-path="../jcac-regulations/flashcards.html" href="../jcac-regulations/flashcards.html">บัตรคำ</a>
+          <a class="btn" data-path="../jcac-regulations/mindmap.html" href="../jcac-regulations/mindmap.html">mindmap</a>
+        </div>
+      </div>
+    </article>
+    <article class="topic-card">
+      <div class="topic-num">4</div>
+      <div class="topic-body">
+        <h3>ระเบียบ/ประกาศ/คำสั่ง ก.ศ.</h3>
+        <p>งานบุคคลข้าราชการศาลยุติธรรม</p>
+        <div class="btns">
+          <a class="btn primary" data-path="../jcsc-regulations/summary.html" href="../jcsc-regulations/summary.html">สรุปละเอียด</a>
+          <a class="btn" data-path="../jcsc-regulations/quiz.html" href="../jcsc-regulations/quiz.html">ควิซ</a>
+          <a class="btn" data-path="../jcsc-regulations/flashcards.html" href="../jcsc-regulations/flashcards.html">บัตรคำ</a>
+          <a class="btn" data-path="../jcsc-regulations/mindmap.html" href="../jcsc-regulations/mindmap.html">mindmap</a>
+        </div>
+      </div>
+    </article>
+    <article class="topic-card">
+      <div class="topic-num">5</div>
+      <div class="topic-body">
+        <h3>ระเบียบ/ประกาศ/คำสั่ง สำนักงานศาลยุติธรรม</h3>
+        <p>เลขาธิการ · ประกาศปฏิบัติ · e-Court</p>
+        <div class="btns">
+          <a class="btn primary" data-path="../oj-regulations/summary.html" href="../oj-regulations/summary.html">สรุปละเอียด</a>
+          <a class="btn" data-path="../oj-regulations/quiz.html" href="../oj-regulations/quiz.html">ควิซ</a>
+          <a class="btn" data-path="../oj-regulations/flashcards.html" href="../oj-regulations/flashcards.html">บัตรคำ</a>
+          <a class="btn" data-path="../oj-regulations/mindmap.html" href="../oj-regulations/mindmap.html">mindmap</a>
+        </div>
+      </div>
+    </article>
+    <article class="topic-card">
+      <div class="topic-num">6</div>
+      <div class="topic-body">
+        <h3>ข้อกำหนดประธานศาลฎีกาด้าน IT</h3>
+        <p>พิจารณาคดีทางอิเล็กทรอนิกส์ 2563</p>
+        <div class="btns">
+          <a class="btn primary" data-path="../sc-president-it/summary.html" href="../sc-president-it/summary.html">สรุปละเอียด</a>
+          <a class="btn" data-path="../sc-president-it/quiz.html" href="../sc-president-it/quiz.html">ควิซ</a>
+          <a class="btn" data-path="../sc-president-it/flashcards.html" href="../sc-president-it/flashcards.html">บัตรคำ</a>
+          <a class="btn" data-path="../sc-president-it/mindmap.html" href="../sc-president-it/mindmap.html">mindmap</a>
+        </div>
+      </div>
+    </article>
+    <article class="topic-card">
+      <div class="topic-num">7</div>
+      <div class="topic-body">
+        <h3>กฎหมาย/นโยบาย IT ทั่วไป</h3>
+        <p>ธุรกรรมฯ · คอมพิวเตอร์ · PDPA · ไซเบอร์</p>
+        <div class="btns">
+          <a class="btn primary" data-path="../it-laws-policies/summary.html" href="../it-laws-policies/summary.html">สรุปละเอียด</a>
+          <a class="btn" data-path="../it-laws-policies/quiz.html" href="../it-laws-policies/quiz.html">ควิซ</a>
+          <a class="btn" data-path="../it-laws-policies/flashcards.html" href="../it-laws-policies/flashcards.html">บัตรคำ</a>
+          <a class="btn" data-path="../it-laws-policies/mindmap.html" href="../it-laws-policies/mindmap.html">mindmap</a>
+        </div>
+      </div>
+    </article>
+    <article class="topic-card">
+      <div class="topic-num">8</div>
+      <div class="topic-body">
+        <h3>กฎหมายปฏิบัติราชการ (ชุดเสริม)</h3>
+        <p>จริยธรรม · บ้านเมืองที่ดี · ละเมิด · ข้อมูลข่าวสาร</p>
+        <div class="btns">
+          <a class="btn primary" data-path="../civil-service-laws/summary.html" href="../civil-service-laws/summary.html">สรุปละเอียด</a>
+          <a class="btn" data-path="../civil-service-laws/quiz.html" href="../civil-service-laws/quiz.html">ควิซ</a>
+          <a class="btn" data-path="../civil-service-laws/flashcards.html" href="../civil-service-laws/flashcards.html">บัตรคำ</a>
+          <a class="btn" data-path="../civil-service-laws/mindmap.html" href="../civil-service-laws/mindmap.html">mindmap</a>
+        </div>
+      </div>
+    </article>
+    
+<div class="combo-actions">
+  <a class="btn primary big" data-path="quiz.html" href="quiz.html">เริ่มข้อสอบรวมทุกหัวข้อ</a>
+  <a class="btn big" data-path="flashcards.html" href="flashcards.html">บัตรคำรวม</a>
+  <a class="btn big" data-path="../index.html" href="../index.html">กลับเมนูหลัก</a>
+</div>
+
+  </section>
+
+  <section id="sec2"><h2>2) พ.ร.บ.ระเบียบข้าราชการพลเรือน พ.ศ. 2551</h2><p>→ รายละเอียดเต็ม: <a class="mini-btn" data-path="../civil-service-act-2551/summary.html" href="../civil-service-act-2551/summary.html">เปิดสรุปรายละเอียด</a></p>
+<div class="table-wrap"><table><thead><tr><th>จุดจำ</th><th>คำตอบ</th></tr></thead><tbody>
+<tr><td>ประกาศ / ใช้บังคับ</td><td><strong>25 / 26 ม.ค. 2551</strong></td></tr>
+<tr><td>โครงสร้าง</td><td><strong>11 หมวด 139 มาตรา</strong></td></tr>
+<tr><td>ผู้รักษาการ</td><td><strong>นายกรัฐมนตรี</strong></td></tr>
+<tr><td>ข้าราชการพลเรือน (ม.4)</td><td>บรรจุตาม พ.ร.บ.นี้ · เงินเดือนจาก<strong>เงินงบประมาณในกระทรวง กรมฝ่ายพลเรือน</strong></td></tr>
+<tr><td>ก.พ.</td><td>บริหารงานบุคคล</td></tr>
+<tr><td>ก.พ.ค.</td><td>พิทักษ์คุณธรรม · อุทธรณ์/ร้องทุกข์</td></tr>
+<tr><td>จรรยา ม.78</td><td><strong>5</strong> ประเด็น: ยืนหยัด · ซื่อสัตย์ · โปร่งใส · ไม่เลือกปฏิบัติ · มุ่งผลสัมฤทธิ์</td></tr>
+<tr><td>ม.79</td><td>ตักเตือน / แต่งตั้ง-เลื่อนเงินเดือน / สั่งพัฒนา (<strong>ยังไม่ถึงวินัย</strong>)</td></tr>
+<tr><td>ม.82 / 83 / 85</td><td>ปฏิบัติ / ห้าม / ร้ายแรง</td></tr>
+<tr><td>Merit system</td><td>คัดเลือกตาม<strong>สมรรถนะ</strong> · เปิดโอกาสเท่าเทียม</td></tr>
+<tr><td>จริยธรรม 2564</td><td><strong>7 ข้อ</strong> (คนละเรื่องกับ จรรยา 5 ข้อ)</td></tr>
+</tbody></table></div></section><section id="sec3"><h2>3) พ.ร.บ.ระเบียบบริหารราชการศาลยุติธรรม พ.ศ. 2543</h2><p>→ รายละเอียดเต็ม: <a class="mini-btn" data-path="../court-of-justice-admin/summary.html" href="../court-of-justice-admin/summary.html">เปิดสรุปรายละเอียด</a></p>
+<div class="table-wrap"><table><thead><tr><th>จุดจำ</th><th>คำตอบ</th></tr></thead><tbody>
+<tr><td>ประกาศ / ใช้บังคับ</td><td>21 มิ.ย. 2543 / <strong>20 ส.ค. 2543</strong> (พ้น 60 วัน)</td></tr>
+<tr><td>มาตรา</td><td><strong>40</strong> มาตรา</td></tr>
+<tr><td>ผู้รักษาการ</td><td><strong>ประธานศาลฎีกา</strong></td></tr>
+<tr><td>ม.3</td><td>ห้ามกระทบ<strong>อำนาจพิพากษา</strong></td></tr>
+<tr><td>ม.5</td><td>สำนักงานศาล = <strong>นิติบุคคลอิสระ</strong></td></tr>
+<tr><td>เลขาธิการ (ม.8)</td><td>ขึ้นตรง<strong>ประธานศาลฎีกา</strong> · ผู้แทนภายนอก</td></tr>
+<tr><td>ก.บ.ศ.</td><td>ประธาน = <strong>ประธานศาลฎีกา</strong> · ตุลาการ <strong>4/ชั้น</strong> · วาระ <strong>2 ปี</strong></td></tr>
+<tr><td>ก.ศ.</td><td>ประธาน = <strong>ประธานศาลอุทธรณ์</strong> (หลังฉบับที่ 3) · ข้าราชการศาล <strong>5 คน</strong></td></tr>
+<tr><td>เลขาธิการ</td><td>ประธานฎีกาเสนอ · <strong>ก.ต.</strong> เห็นชอบ · วาระ <strong>2 ปี</strong></td></tr>
+<tr><td>ม.24</td><td>อนุโลม พ.ร.บ.2551: ก.ศ.=ก.พ. · สำนักงาน=กระทรวง · เลขาธิการ=ปลัดกระทรวง</td></tr>
+<tr><td>ฉบับที่ 4 (2562)</td><td>ม.17(1/1) <strong>เบี้ยประชุม</strong> · ออกระเบียบภายใน <strong>30 วัน</strong></td></tr>
+</tbody></table></div></section><section id="sec4"><h2>4) ระเบียบ/ประกาศ/คำสั่ง ก.บ.ศ.</h2><p>→ รายละเอียดเต็ม: <a class="mini-btn" data-path="../jcac-regulations/summary.html" href="../jcac-regulations/summary.html">เปิดสรุปรายละเอียด</a></p>
+<div class="table-wrap"><table><thead><tr><th>จุดจำ</th><th>คำตอบ</th></tr></thead><tbody>
+<tr><td>ฐานกฎหมาย</td><td><strong>ม.10</strong> (องค์กร) · <strong>ม.17</strong> (อำนาจ)</td></tr>
+<tr><td>ประธาน</td><td><strong>ประธานศาลฎีกา</strong></td></tr>
+<tr><td>ตุลาการ</td><td><strong>4 คน/ชั้นศาล</strong> (ฎีกา · อุทธรณ์ · ต้น)</td></tr>
+<tr><td>ผู้ทรงคุณวุฒิ</td><td><strong>2–4 คน</strong> · อายุ <strong>40+</strong></td></tr>
+<tr><td>วาระ</td><td><strong>2 ปี</strong> · ไม่เกิน 2 วาระติดต่อกัน</td></tr>
+<tr><td>องค์ประชุม</td><td><strong>กึ่งหนึ่ง</strong></td></tr>
+<tr><td>ห้าม</td><td><strong>ก.ต.</strong> เป็น ก.บ.ศ. พร้อมกัน</td></tr>
+<tr><td>อำนาจ ม.17</td><td>ระเบียบ/ประกาศ/มติ · งบประมาณ · พัสดุ · วันหยุด · แบบพิมพ์ · <strong>ยับยั้ง</strong></td></tr>
+<tr><td>ม.17(1/1)</td><td><strong>เบี้ยประชุม</strong> (ฉบับแก้ 4 ปี 2562)</td></tr>
+<tr><td>ลำดับเอกสาร</td><td><strong>ระเบียบ &gt; ประกาศ &gt; คำสั่ง/มติ</strong></td></tr>
+<tr><td>เว็บ/ระบบ</td><td><strong>ojac.coj.go.th</strong> · <strong>E-JACSS</strong></td></tr>
+</tbody></table></div></section><section id="sec5"><h2>5) ระเบียบ/ประกาศ/คำสั่ง ก.ศ.</h2><p>→ รายละเอียดเต็ม: <a class="mini-btn" data-path="../jcsc-regulations/summary.html" href="../jcsc-regulations/summary.html">เปิดสรุปรายละเอียด</a></p>
+<div class="table-wrap"><table><thead><tr><th>จุดจำ</th><th>คำตอบ</th></tr></thead><tbody>
+<tr><td>ฐานกฎหมาย</td><td><strong>ม.18</strong> (องค์กร) · <strong>ม.21</strong> (อำนาจ)</td></tr>
+<tr><td>ประธาน (หลังฉบับที่ 3)</td><td><strong>ประธานศาลอุทธรณ์</strong></td></tr>
+<tr><td>โดยตำแหน่ง</td><td>รองประธานฎีกาอาวุโสสูงสุด · เลขาธิการ <strong>ก.พ.</strong> · เลขาธิการ<strong>สำนักงาน</strong></td></tr>
+<tr><td>ตุลาการ</td><td><strong>1 คน/ชั้น</strong> (จาก ก.ต.)</td></tr>
+<tr><td>ข้าราชการศาล</td><td><strong>5 คน</strong> (เลือก)</td></tr>
+<tr><td>ผู้ทรงคุณวุฒิ</td><td>ไม่เกิน <strong>3 คน</strong></td></tr>
+<tr><td>ขอบเขต</td><td><strong>ข้าราชการศาลยุติธรรม</strong> (ธุรการ) — <strong>ไม่รวมผู้พิพากษา</strong></td></tr>
+<tr><td>อำนาจ</td><td>สรรหา · บรรจุ · วินัย · สวัสดิการ · เครื่องแบบ · จ้างผู้เชี่ยวชาญ</td></tr>
+<tr><td>ออกระเบียบ</td><td><strong>ก.บ.ศ. เห็นชอบ</strong> + <strong>ราชกิจจา</strong></td></tr>
+<tr><td>ก.ศ. ≈</td><td><strong>ก.พ.</strong> ของศาล</td></tr>
+<tr><td>เว็บ</td><td><strong>ojoc.coj.go.th</strong></td></tr>
+</tbody></table></div></section><section id="sec6"><h2>6) ระเบียบ/ประกาศ/คำสั่ง สำนักงานศาลยุติธรรม</h2><p>→ รายละเอียดเต็ม: <a class="mini-btn" data-path="../oj-regulations/summary.html" href="../oj-regulations/summary.html">เปิดสรุปรายละเอียด</a></p>
+<div class="table-wrap"><table><thead><tr><th>จุดจำ</th><th>คำตอบ</th></tr></thead><tbody>
+<tr><td>สถานะ (ม.5)</td><td><strong>นิติบุคคลอิสระ</strong></td></tr>
+<tr><td>เลขาธิการ (ม.8)</td><td>ขึ้นตรง<strong>ประธานศาลฎีกา</strong> · ผู้แทนภายนอก</td></tr>
+<tr><td>โครงสร้าง</td><td><strong>ประกาศ ก.บ.ศ.</strong> + เห็นชอบประธานฎีกา + ราชกิจจา</td></tr>
+<tr><td>อำนาจ ม.6</td><td>ธุรการ · ส่งเสริมตุลาการ · วิชาการ</td></tr>
+<tr><td>งบประมาณ ม.32</td><td>เสนอ<strong>คณะรัฐมนตรี</strong> · ก.บ.ศ. เห็นชอบ</td></tr>
+<tr><td>บทบาท</td><td><strong>ปฏิบัติการ</strong> (ต่างจาก ก.บ.ศ. = นโยบาย)</td></tr>
+<tr><td>ข้อ 4 (2563)</td><td>หลักและ<strong>ขอบเขต</strong> — สำนักงานออกประกาศ</td></tr>
+<tr><td>ข้อ 7</td><td><strong>ยื่น</strong>คำร้อง/เอกสาร (e-Filing)</td></tr>
+<tr><td>ข้อ 13</td><td><strong>นัด</strong>พิจารณา/ประชุม</td></tr>
+<tr><td>ข้อ 27</td><td>อำนาจสำนักงานออก<strong>ประกาศรายละเอียด</strong></td></tr>
+<tr><td>e-Filing</td><td>สำนักงานเป็นผู้ดูแลระบบ</td></tr>
+</tbody></table></div></section><section id="sec7"><h2>7) ข้อกำหนดประธานศาลฎีกาด้าน IT (2563)</h2><p>→ รายละเอียดเต็ม: <a class="mini-btn" data-path="../sc-president-it/summary.html" href="../sc-president-it/summary.html">เปิดสรุปรายละเอียด</a></p>
+<div class="table-wrap"><table><thead><tr><th>จุดจำ</th><th>คำตอบ</th></tr></thead><tbody>
+<tr><td>ชื่อเต็ม</td><td>ข้อกำหนดประธานศาลฎีกาว่าด้วยวิธีพิจารณาคดีทางอิเล็กทรอนิกส์ <strong>พ.ศ. 2563</strong></td></tr>
+<tr><td>ประกาศ</td><td><strong>30 ก.ย. 2563</strong> เล่ม 137 ตอนที่ 78 ก</td></tr>
+<tr><td>ใช้บังคับ</td><td><strong>วันถัดจากประกาศ</strong></td></tr>
+<tr><td>ฐานกฎหมาย</td><td>ป.พ.พ. <strong>ม.34/1</strong> · ม.51 วรรคสอง · ม.68</td></tr>
+<tr><td>ผู้รักษาการ (ข้อ 30)</td><td><strong>ประธานศาลฎีกา</strong></td></tr>
+<tr><td>ข้อ 4 / 7 / 13 / 27</td><td>ขอบเขต / ยื่นเอกสาร / นัด / ประกาศสำนักงาน</td></tr>
+<tr><td>ข้อ 18</td><td><strong>ห้ามปฏิเสธ</strong>หลักฐานอิเล็กทรอนิกส์เพราะเป็นอิเล็กทรอนิกส์</td></tr>
+<tr><td>ข้อ 24 / 25</td><td><strong>สำรองข้อมูล</strong> / <strong>ความมั่นคงปลอดภัย</strong></td></tr>
+<tr><td>รุ่นก่อน</td><td>e-filing <strong>2560</strong> → พัฒนาเป็น <strong>2563</strong></td></tr>
+<tr><td>นิยาม e-data/e-sign</td><td>อิง <strong>พ.ร.บ.ธุรกรรมฯ 2544</strong></td></tr>
+</tbody></table></div></section><section id="sec8"><h2>8) กฎหมาย/นโยบาย IT ทั่วไป</h2><p>→ รายละเอียดเต็ม: <a class="mini-btn" data-path="../it-laws-policies/summary.html" href="../it-laws-policies/summary.html">เปิดสรุปรายละเอียด</a></p>
+<div class="table-wrap"><table><thead><tr><th>จุดจำ</th><th>คำตอบ</th></tr></thead><tbody>
+<tr><td>พ.ร.บ.ธุรกรรมฯ <strong>2544</strong></td><td>เอกสารอิเล็กทรอนิกส์ · ลายมือชื่ออิเล็กทรอนิกส์ มีผลทางกฎหมาย</td></tr>
+<tr><td>พ.ร.บ.คอมพิวเตอร์ <strong>2550</strong> (+แก้ <strong>2560</strong>)</td><td>ความผิดเข้าถึงมิชอบ · แทรกแซงข้อมูล · ไวรัส</td></tr>
+<tr><td>PDPA <strong>2562</strong></td><td>ม.19 ยินยอม · ม.22 จำเป็น · ม.24 ข้อยกเว้น · ม.26 อ่อนไหว</td></tr>
+<tr><td>หน่วยกำกับ PDPA</td><td><strong>PDPC (สคส.)</strong></td></tr>
+<tr><td>Cybersecurity Act <strong>2562</strong></td><td>มาตรการความปลอดภัย · <strong>แจ้งเหตุ</strong>ไซเบอร์</td></tr>
+<tr><td>CIA Triad</td><td><strong>C</strong>=ลับ · <strong>I</strong>=ถูกต้อง · <strong>A</strong>=พร้อมใช้</td></tr>
+<tr><td>เชื่อมศาล</td><td>ธุรกรรมฯ→เอกสาร · PDPA→ข้อมูลคน · Cyber→ข้อ 24–25</td></tr>
+</tbody></table></div></section><section id="sec9"><h2>9) กฎหมายปฏิบัติราชการ (ชุดเสริม)</h2><p>→ รายละเอียดเต็ม: <a class="mini-btn" data-path="../civil-service-laws/summary.html" href="../civil-service-laws/summary.html">เปิดสรุปรายละเอียด</a></p>
+<p>หัวข้อเสริมที่อาจปรากฏในข้อสอบรวม:</p>
+<div class="table-wrap"><table><thead><tr><th>กฎหมาย</th><th>จุดจำสั้น</th></tr></thead><tbody>
+<tr><td>ประมวลจริยธรรม 2564</td><td><strong>7 ข้อ</strong> · ก.พ. จัดทำ · ประกาศ 20 พ.ค. 2564</td></tr>
+<tr><td>พ.ร.ฎ.บริหารกิจการบ้านเมืองที่ดี 2546</td><td>ธรรมาภิบาล 8 หลัก</td></tr>
+<tr><td>พ.ร.บ.ข้อมูลข่าวสารฯ 2540</td><td>สิทธิประชาชนรู้ข้อมูล<strong>ของราชการ</strong> (≠ PDPA)</td></tr>
+<tr><td>พ.ร.บ.วิธีปฏิบัติราชการทางปกครอง 2539</td><td>คำสั่งทางปกครอง · อุทธรณ์ <strong>15 วัน</strong></td></tr>
+<tr><td>พ.ร.บ.อำนวยความสะดวกฯ 2558</td><td>คู่มือ · เอกสารครบห้ามเรียกเพิ่ม (ม.8)</td></tr>
+<tr><td>พ.ร.บ.จัดซื้อจัดจ้าง 2560</td><td>ม.8 หลัก 4 ข้อ · วิธีซื้อจ้าง 3 วิธี (ข้อ 28)</td></tr>
+</tbody></table></div></section><section id="sec10"><h2>10) ตารางเปรียบเทียบองค์กรและตัวเลข</h2><h3>องค์กรศาล — ใครทำอะไร</h3>
+<div class="table-wrap"><table><thead><tr><th>องค์กร</th><th>ประธาน</th><th>โฟกัส</th><th>เทียบพลเรือน</th></tr></thead><tbody>
+<tr><td><strong>ก.บ.ศ.</strong></td><td>ประธานศาลฎีกา</td><td>นโยบาย/งบประมาณ/ระเบียบ</td><td>คณะรัฐมนตรี</td></tr>
+<tr><td><strong>ก.ศ.</strong></td><td>ประธานศาลอุทธรณ์</td><td>งานบุคคลข้าราชการศาล</td><td><strong>ก.พ.</strong></td></tr>
+<tr><td><strong>ก.ต.</strong></td><td>—</td><td>ผู้พิพากษา/ตุลาการ</td><td>—</td></tr>
+<tr><td><strong>สำนักงานศาล</strong></td><td>เลขาธิการ→ประธานฎีกา</td><td>ปฏิบัติการ/ธุรการ</td><td>กระทรวง</td></tr>
+<tr><td><strong>ก.พ.</strong></td><td>—</td><td>งานบุคคลพลเรือน</td><td>—</td></tr>
+<tr><td><strong>ก.พ.ค.</strong></td><td>—</td><td>คุณธรรม/อุทธรณ์/ร้องทุกข์</td><td>—</td></tr>
+</tbody></table></div>
+<h3>ตัวเลขสำคัญรวม</h3>
+<div class="table-wrap"><table><thead><tr><th>เรื่อง</th><th>ตัวเลข</th></tr></thead><tbody>
+<tr><td>พ.ร.บ.2551 หมวด/มาตรา</td><td>11 / 139</td></tr>
+<tr><td>พ.ร.บ.2543 มาตรา</td><td>40</td></tr>
+<tr><td>จรรยา ม.78</td><td>5 ประเด็น</td></tr>
+<tr><td>จริยธรรม 2564</td><td>7 ข้อ</td></tr>
+<tr><td>ก.บ.ศ. ตุลาการ/ชั้น</td><td>4 คน</td></tr>
+<tr><td>ก.บ.ศ. ผู้ทรงคุณวุฒิ</td><td>2–4 คน (อายุ 40+)</td></tr>
+<tr><td>ก.ศ. ตุลาการ/ชั้น</td><td>1 คน</td></tr>
+<tr><td>ก.ศ. ข้าราชการศาล</td><td>5 คน</td></tr>
+<tr><td>ก.ศ. ผู้ทรงคุณวุฒิ</td><td>≤ 3 คน</td></tr>
+<tr><td>วาระ ก.บ.ศ./ก.ศ./เลขาธิการ</td><td>2 ปี</td></tr>
+<tr><td>องค์ประชุม ก.บ.ศ./ก.ศ.</td><td>กึ่งหนึ่ง</td></tr>
+<tr><td>ออกระเบียบเบี้ยประชุมหลังฉบับที่ 4</td><td>30 วัน</td></tr>
+</tbody></table></div></section><section id="sec11"><h2>11) ตารางเปรียบเทียบวันที่</h2><div class="table-wrap"><table><thead><tr><th>กฎหมาย/ข้อกำหนด</th><th>ประกาศ</th><th>ใช้บังคับ</th><th>หมายเหตุ</th></tr></thead><tbody>
+<tr><td>พ.ร.บ.ข้าราชการพลเรือน 2551</td><td>25 ม.ค. 2551</td><td><strong>26 ม.ค. 2551</strong></td><td>วันถัดจากประกาศ</td></tr>
+<tr><td>พ.ร.บ.บริหารราชการศาล 2543</td><td>21 มิ.ย. 2543</td><td><strong>20 ส.ค. 2543</strong></td><td>พ้น 60 วัน</td></tr>
+<tr><td>แก้ ก.ศ. ฉบับที่ 3</td><td>8 ก.ย. 2558</td><td>9 ก.ย. 2558</td><td>ประธาน ก.ศ. = ประธานอุทธรณ์</td></tr>
+<tr><td>แก้ เบี้ยประชุม ฉบับที่ 4</td><td>20 มี.ค. 2562</td><td>21 มี.ค. 2562</td><td>ม.17(1/1)</td></tr>
+<tr><td>ข้อกำหนดศาลอิเล็กทรอนิกส์ 2563</td><td><strong>30 ก.ย. 2563</strong></td><td>วันถัดจากประกาศ</td><td>ป.พ.พ. ม.34/1</td></tr>
+<tr><td>ประมวลจริยธรรม 2564</td><td>20 พ.ค. 2564</td><td>วันถัดจากประกาศ</td><td>7 ข้อ</td></tr>
+<tr><td>PDPA / Cybersecurity</td><td>2562</td><td>28 พ.ค. 2562 (Cyber)</td><td>ปีเดียวกัน คนละเรื่อง</td></tr>
+</tbody></table></div>
+<p><strong>กับดักวันที่:</strong> 2551 = วันถัดไป · 2543 = 60 วัน · 2563 = วันถัดไป (ไม่ใช่ 60 วัน)</p></section><section id="sec12"><h2>12) แผนจำเร็วก่อนสอบรวม</h2><h3>20 ข้อท่องวันสอบ</h3>
+<ol>
+<li>1. <strong>ก.บ.ศ.</strong> = ประธานฎีกา · บริหาร/งบประมาณ · 4/ชั้น · ojac · E-JACSS  </li>
+<li>2. <strong>ก.ศ.</strong> = ประธานอุทธรณ์ · งานบุคคลศาล · 1/ชั้น · 5 คน · ojoc · ≈ ก.พ.  </li>
+<li>3. <strong>ก.ต.</strong> = ผู้พิพากษา · ห้ามเป็น ก.บ.ศ. พร้อมกัน  </li>
+<li>4. สำนักงานศาล = นิติบุคคล · เลขาธิการ→ประธานฎีกา · ปฏิบัติการ  </li>
+<li>5. ระเบียบ ก.ศ. = ก.บ.ศ. เห็นชอบ + ราชกิจจา  </li>
+<li>6. <strong>2551</strong>: 25/26 ม.ค. · 139 มาตรา · นายกฯ รักษาการ · ก.พ./ก.พ.ค.  </li>
+<li>7. จรรยา <strong>5</strong> (ม.78) · ม.79 ก่อนวินัย · ม.82/83/85  </li>
+<li>8. จริยธรรม <strong>7</strong> ข้อ (2564) — คนละเรื่องกับจรรยา  </li>
+<li>9. <strong>2543</strong>: 20 ส.ค. 2543 · 40 มาตรา · ม.3 ห้ามกระทบพิพากษา  </li>
+<li>10. เลขาธิการ: ประธานฎีกาเสนอ · ก.ต. เห็นชอบ · วาระ 2 ปี  </li>
+<li>11. ม.17(1/1) = เบี้ยประชุม · ฉบับที่ 4 · 30 วัน  </li>
+<li>12. ข้อกำหนด <strong>2563</strong>: 30 ก.ย. · ม.34/1 · ข้อ 18 ห้ามปฏิเสธหลักฐานอิเล็กทรอนิกส์  </li>
+<li>13. ข้อ 4/7/13/27 = ขอบเขต/ยื่น/นัด/ประกาศสำนักงาน  </li>
+<li>14. ข้อ 24/25 = สำรอง/ปลอดภัย · ข้อ 30 = ประธานฎีกา  </li>
+<li>15. <strong>2544</strong> = เอกสาร/e-sign · <strong>2550</strong> = คอม · <strong>2562</strong> = PDPA+Cyber  </li>
+<li>16. PDPA: ม.19 ยินยอม · ม.22 จำเป็น · ม.24 ยกเว้น · ม.26 อ่อนไหว  </li>
+<li>17. CIA: C=ลับ · I=ถูกต้อง · A=พร้อมใช้  </li>
+<li>18. ลำดับเอกสาร ก.บ.ศ.: ระเบียบ &gt; ประกาศ &gt; คำสั่ง/มติ  </li>
+<li>19. นโยบาย (ก.บ.ศ.) vs ปฏิบัติการ (สำนักงาน) vs บุคคล (ก.ศ.)  </li>
+<li>20. ข้อสอบรวม: ทำ quiz 5 ชุด · กลับอ่าน SUMMARY หัวข้อที่ผิด</li>
+</ol>
+<h3>เช็กลิสต์ก่อนเข้าห้องสอบ</h3>
+<ul>
+<li>[ ] จำประธาน ก.บ.ศ. vs ก.ศ. ได้ถูก  </li>
+<li>[ ] แยก 4/ชั้น (ก.บ.ศ.) vs 1/ชั้น (ก.ศ.) ได้  </li>
+<li>[ ] แยกวันที่ 2551 / 2543 / 2563 ได้  </li>
+<li>[ ] แยก จรรยา 5 vs จริยธรรม 7 ได้  </li>
+<li>[ ] แยก ก.พ. vs ก.พ.ค. ได้  </li>
+<li>[ ] จำข้อ 4/7/13/18/24/25/27/30 (2563) ได้  </li>
+<li>[ ] จำ PDPA ม.19/22/24/26 ได้  </li>
+<li>[ ] จำ ojac (ก.บ.ศ.) vs ojoc (ก.ศ.) ได้  </li>
+</ul></section><section id="s13"><h2>วิธีใช้คู่กับไฟล์อื่นในชุดนี้</h2><div class="table-wrap"><table><thead><tr><th>ไฟล์</th><th>ใช้เมื่อ</th></tr></thead><tbody>
+<tr><td><code>quiz.html</code></td><td>ทดสอบรวม 5 ชุด (ชุดละ 30 ข้อ)</td></tr>
+<tr><td><code>flashcards.html</code></td><td>ท่องจำด่วนก่อนสอบ</td></tr>
+<tr><td><code>mindmap.html</code></td><td>ดูภาพรวมเชื่อมโยง</td></tr>
+<tr><td><code>summary.html</code></td><td>อ่านสรุป HTML</td></tr>
+<tr><td><code>../index.html</code></td><td>เมนูหลักกลับไปแต่ละหัวข้อ</td></tr>
+</tbody></table></div></section>
+</div>
+<script>
+(function () {
+  const BRANCH = "cursor/court-justice-admin-act-7242";
+  const REPO = "CenturyXD/open-exam-skills";
+  const onPreview = /htmlpreview\.github\.io/i.test(location.hostname);
+  function abs(path) {
+    // path like ../slug/summary.html or quiz.html or ../index.html
+    let clean = path.replace(/^\.\//, "");
+    if (clean.startsWith("../")) {
+      clean = clean.slice(3); // remove ../
+      return "https://htmlpreview.github.io/?https://github.com/" + REPO + "/blob/" + BRANCH + "/study/" + clean;
+    }
+    return "https://htmlpreview.github.io/?https://github.com/" + REPO + "/blob/" + BRANCH + "/study/combined-all-topics/" + clean;
+  }
+  if (!onPreview) return;
+  document.querySelectorAll("a[data-path]").forEach(function (a) {
+    a.href = abs(a.getAttribute("data-path"));
+  });
+  var back = document.getElementById("back-menu");
+  if (back) back.href = abs("../index.html");
+})();
+</script>
+</body>
+</html>
