@@ -1,0 +1,265 @@
+{
+  "title": "แบบทดสอบ: ISC² Certified in Cybersecurity (CC)",
+  "questions": [
+    {
+      "question": "ตาม Official CC Exam Outline คะแนนผ่านขั้นต่ำคือเท่าใด?",
+      "options": [
+        "600 จาก 1000",
+        "650 จาก 1000",
+        "700 จาก 1000",
+        "750 จาก 1000"
+      ],
+      "correctIndex": 2,
+      "hint": "ดูส่วน CC CAT Examination Information ใน outline",
+      "correctExplanation": "Official outline ระบุ passing grade 700 out of 1000 points",
+      "wrongExplanation": "คำตอบที่ถูกคือ 700 จาก 1000 ตาม Official CC Exam Outline"
+    },
+    {
+      "question": "โดเมนใดมีน้ำหนักมากที่สุดในโครง CC ปัจจุบัน (ก่อน 1 ก.ย. 2026)?",
+      "options": [
+        "Security Operations (18%)",
+        "Access Controls Concepts (22%)",
+        "Network Security (24%)",
+        "Security Principles (26%)"
+      ],
+      "correctIndex": 3,
+      "hint": "ดู Domains Average Weight ใน outline ฉบับ Oct 1, 2025",
+      "correctExplanation": "Security Principles มีน้ำหนัก 26% สูงสุดในโครงปัจจุบัน",
+      "wrongExplanation": "โดเมนที่หนักสุดคือ Security Principles ที่ 26%"
+    },
+    {
+      "question": "ข้อใดอธิบาย Confidentiality ได้ถูกต้องที่สุด?",
+      "options": [
+        "ข้อมูลพร้อมใช้งานเมื่อผู้ใช้ต้องการ",
+        "ข้อมูลถูกต้องและไม่ถูกแก้ไขโดยไม่ได้รับอนุญาต",
+        "จำกัดการเข้าถึงข้อมูลเฉพาะผู้มีสิทธิ์",
+        "ผู้ส่งไม่สามารถปฏิเสธว่าได้ส่งข้อความ"
+      ],
+      "correctIndex": 2,
+      "hint": "คิดถึงตัว C ใน CIA triad",
+      "correctExplanation": "Confidentiality คือการปกป้องข้อมูลจากการเปิดเผยต่อผู้ไม่มีสิทธิ์",
+      "wrongExplanation": "Availability คือพร้อมใช้, Integrity คือความถูกต้อง, Non-repudiation คือการไม่ปฏิเสธได้"
+    },
+    {
+      "question": "การพิสูจน์ว่าผู้ใช้คือใคร เรียกว่าอะไร?",
+      "options": [
+        "Authorization",
+        "Authentication",
+        "Accounting",
+        "Availability"
+      ],
+      "correctIndex": 1,
+      "hint": "AAA: ขั้นแรกคือยืนยันตัวตน",
+      "correctExplanation": "Authentication คือการพิสูจน์ตัวตน ส่วน Authorization คือการให้สิทธิ์",
+      "wrongExplanation": "คำตอบคือ Authentication — Authorization เป็นเรื่องสิทธิ์ และ Accounting เป็นการบันทึก"
+    },
+    {
+      "question": "Firewall เป็นตัวอย่างของ control ประเภทใด?",
+      "options": [
+        "Physical control",
+        "Administrative control",
+        "Technical control",
+        "Legal control"
+      ],
+      "correctIndex": 2,
+      "hint": "คิดถึง control ที่เป็นเทคโนโลยี/ระบบ",
+      "correctExplanation": "Firewall เป็น technical (logical) control",
+      "wrongExplanation": "Firewall เป็น technical control ไม่ใช่ physical หรือ administrative"
+    },
+    {
+      "question": "นโยบายรหัสผ่านขององค์กรจัดเป็น control ประเภทใด?",
+      "options": [
+        "Technical control",
+        "Physical control",
+        "Administrative control",
+        "Compensating hardware control เท่านั้น"
+      ],
+      "correctIndex": 2,
+      "hint": "นโยบายและกระบวนการอยู่ในกลุ่ม managerial/administrative",
+      "correctExplanation": "Policies เป็น administrative controls",
+      "wrongExplanation": "นโยบายเป็น administrative control แม้ระบบบังคับรหัสผ่านจะเป็น technical"
+    },
+    {
+      "question": "ข้อใดเป็นเป้าหมายหลักของ Business Continuity (BC)?",
+      "options": [
+        "กู้คืนเซิร์ฟเวอร์ทีละเครื่องหลังไฟดับเท่านั้น",
+        "รักษาการดำเนินธุรกิจ/กระบวนการสำคัญให้ต่อเนื่อง",
+        "บล็อกทุกพอร์ตเครือข่าย",
+        "เข้ารหัสข้อมูลทุกไฟล์ด้วยกุญแจเดียว"
+      ],
+      "correctIndex": 1,
+      "hint": "BC โฟกัสธุรกิจ ไม่ใช่แค่ IT recovery",
+      "correctExplanation": "BC มุ่งให้ธุรกิจดำเนินต่อได้เมื่อเกิดเหตุขัดข้อง ส่วน DR โฟกัสกู้ระบบ IT",
+      "wrongExplanation": "BC คือการรักษา continuity ของธุรกิจ ส่วนการกู้ IT เป็นบทบาทหลักของ DR"
+    },
+    {
+      "question": "ลำดับแนวคิด Incident Response ที่เหมาะสมที่สุดคือข้อใด?",
+      "options": [
+        "Recovery → Detection → Preparation → Containment",
+        "Preparation → Detection & Analysis → Containment → Eradication → Recovery → Lessons learned",
+        "Eradication → Preparation → Accounting → Encryption",
+        "Authorization → Authentication → Availability"
+      ],
+      "correctIndex": 1,
+      "hint": "เริ่มจากเตรียมตัวก่อนเกิดเหตุ",
+      "correctExplanation": "วงจร IR มาตรฐานเริ่มจาก preparation แล้วตรวจจับ จำกัด กำจัด กู้คืน และสรุปบทเรียน",
+      "wrongExplanation": "ลำดับที่ถูกคือ Preparation → Detection & Analysis → Containment → Eradication → Recovery → Lessons learned"
+    },
+    {
+      "question": "Principle of Least Privilege หมายถึงอะไร?",
+      "options": [
+        "ให้สิทธิ์แอดมินแก่ทุกคนเพื่อทำงานเร็ว",
+        "ให้สิทธิ์ขั้นต่ำที่จำเป็นต่อหน้าที่",
+        "ปิดระบบทั้งหมดหลังเลิกงาน",
+        "ใช้ MAC เท่านั้นในทุกองค์กร"
+      ],
+      "correctIndex": 1,
+      "hint": "น้อยที่สุดที่ยังทำงานได้",
+      "correctExplanation": "PoLP จำกัดสิทธิ์เหลือเท่าที่จำเป็นเพื่อลดผลกระทบหากบัญชีถูกCompromise",
+      "wrongExplanation": "คำตอบคือให้สิทธิ์ขั้นต่ำที่จำเป็น ไม่ใช่ให้สิทธิ์กว้างเกินไป"
+    },
+    {
+      "question": "โมเดล access control ใดกำหนดสิทธิ์ตามบทบาทในองค์กร?",
+      "options": [
+        "DAC",
+        "MAC",
+        "RBAC",
+        "CAPTCHA"
+      ],
+      "correctIndex": 2,
+      "hint": "ชื่อมีคำว่า Role",
+      "correctExplanation": "RBAC (Role-Based Access Control) ให้สิทธิ์ตาม role",
+      "wrongExplanation": "RBAC คือ role-based ส่วน DAC เป็นเจ้าของกำหนด และ MAC เป็นระบบบังคับตาม label"
+    },
+    {
+      "question": "Segregation of Duties ช่วยลดความเสี่ยงใดเป็นหลัก?",
+      "options": [
+        "ไฟไหม้ในศูนย์ข้อมูล",
+        "บุคคลเดียวทำครบวงจรจนเกิด fraud หรือผิดพลาดโดยไร้การตรวจสอบ",
+        "แบตเตอรี่ UPS หมด",
+        "ใบรับรอง SSL หมดอายุอย่างเดียว"
+      ],
+      "correctIndex": 1,
+      "hint": "แยกหน้าที่สำคัญออกจากกัน",
+      "correctExplanation": "SoD ป้องกันไม่ให้คนเดียวมีอำนาจครบจนสามารถทุจริตหรือปกปิดความผิดได้",
+      "wrongExplanation": "SoD เน้นแยกหน้าที่เพื่อลด fraud/error ไม่ใช่ประเด็นกายภาพโดยตรง"
+    },
+    {
+      "question": "ชั้นใดของ OSI เกี่ยวข้องกับการกำหนดเส้นทาง (routing) เป็นหลัก?",
+      "options": [
+        "Data Link",
+        "Network",
+        "Session",
+        "Presentation"
+      ],
+      "correctIndex": 1,
+      "hint": "ชั้นที่ 3",
+      "correctExplanation": "Network layer (Layer 3) จัดการ addressing และ routing เช่น IP",
+      "wrongExplanation": "คำตอบคือ Network layer ส่วน Data Link เป็นชั้น 2 และ Presentation/Session อยู่ชั้นบน"
+    },
+    {
+      "question": "พอร์ตมาตรฐานของ HTTPS คือหมายเลขใด?",
+      "options": [
+        "21",
+        "25",
+        "80",
+        "443"
+      ],
+      "correctIndex": 3,
+      "hint": "HTTP คือ 80 ส่วนแบบเข้ารหัสคือ...",
+      "correctExplanation": "HTTPS ใช้พอร์ต 443 โดยมาตรฐาน",
+      "wrongExplanation": "HTTPS = 443, HTTP = 80"
+    },
+    {
+      "question": "ข้อใดถูกต้องเกี่ยวกับ IDS และ IPS?",
+      "options": [
+        "IDS บล็อกทราฟฟิกได้เสมอ ส่วน IPS แค่แจ้งเตือน",
+        "IDS เน้นตรวจจับ/แจ้งเตือน ส่วน IPS สามารถป้องกัน/บล็อกได้",
+        "ทั้งสองทำงานได้เฉพาะบนโฮสต์",
+        "IPS ใช้แทน firewall ได้ในทุกกรณีโดยไม่ต้องมี control อื่น"
+      ],
+      "correctIndex": 1,
+      "hint": "Detection vs Prevention",
+      "correctExplanation": "IDS = detect/alert, IPS = detect และป้องกันได้",
+      "wrongExplanation": "IDS แจ้งเตือนเป็นหลัก ส่วน IPS ป้องกันได้ — และมักใช้ร่วมกับ defense in depth"
+    },
+    {
+      "question": "DMZ ในออกแบบเครือข่ายมีบทบาทอย่างไร?",
+      "options": [
+        "โซนกลางสำหรับบริการที่เปิดสู่ภายนอก โดยแยกจากเครือข่ายภายใน",
+        "ห้องเก็บเทปแบ็กอัพเท่านั้น",
+        "ระบบ MFA สำหรับผู้ใช้ทั้งหมด",
+        "โปรโตคอลเข้ารหัสแทน TLS"
+      ],
+      "correctIndex": 0,
+      "hint": "คิดถึง demilitarized zone ระหว่าง internet กับ internal",
+      "correctExplanation": "DMZ เป็น segmentation เพื่อวางบริการสาธารณะโดยลดการเปิดเครือข่ายภายในโดยตรง",
+      "wrongExplanation": "DMZ คือโซนเครือข่ายคั่นกลาง ไม่ใช่ห้องเก็บข้อมูลหรือโปรโตคอล"
+    },
+    {
+      "question": "ในโมเดลคลาวด์ ผู้ใช้รับผิดชอบระบบปฏิบัติการและแอปมากที่สุดในบริการประเภทใด?",
+      "options": [
+        "SaaS",
+        "PaaS",
+        "IaaS",
+        "Only on-prem email gateway"
+      ],
+      "correctIndex": 2,
+      "hint": "ยิ่งเป็น Infrastructure-as-a-Service ผู้ใช้ดูแลชั้นบนมากขึ้น",
+      "correctExplanation": "IaaS ให้โครงสร้างพื้นฐาน ผู้ใช้ดูแล OS, middleware และแอปตาม shared responsibility",
+      "wrongExplanation": "SaaS ผู้ให้บริการดูแลเกือบทั้งหมด ส่วน IaaS ผู้ใช้ดูแล OS/แอปมากกว่า"
+    },
+    {
+      "question": "ข้อใดถูกต้องเกี่ยวกับ hashing?",
+      "options": [
+        "เป็น one-way function ใช้ตรวจ integrity หรือเก็บรหัสผ่าน",
+        "ถอดกลับได้ด้วยกุญแจสาธารณะเสมอ",
+        "แทนที่ asymmetric encryption ได้ทุกกรณี",
+        "ใช้เป็น physical lock ของศูนย์ข้อมูล"
+      ],
+      "correctIndex": 0,
+      "hint": "hash ไม่ได้ออกแบบให้ถอดกลับ",
+      "correctExplanation": "Hashing สร้าง digest แบบ one-way สำหรับ integrity และการเก็บรหัสผ่านอย่างปลอดภัย",
+      "wrongExplanation": "Hash ไม่ใช่ encryption ที่ถอดกลับได้"
+    },
+    {
+      "question": "ข้อใดเป็นตัวอย่าง best-practice security policies ใน Domain 5?",
+      "options": [
+        "Acceptable Use Policy (AUP) และ password policy",
+        "เฉพาะสัญญาเช่าอาคาร",
+        "เฉพาะเมนูอาหารในโรงอาหาร",
+        "เฉพาะสีของสายแลน"
+      ],
+      "correctIndex": 0,
+      "hint": "ดูรายการ policies ใน exam outline Domain 5",
+      "correctExplanation": "Outline ระบุ AUP, password, data handling, BYOD, change management, privacy policies",
+      "wrongExplanation": "คำตอบคือ AUP และ password policy ตาม Domain 5 ของ CC outline"
+    },
+    {
+      "question": "Tailgating จัดเป็นภัยคุกคามประเภทใด?",
+      "options": [
+        "SQL injection",
+        "Social engineering / physical access abuse",
+        "Symmetric key exchange",
+        "VLAN hopping เท่านั้น"
+      ],
+      "correctIndex": 1,
+      "hint": "ตามคนมีบัตรเข้าประตูโดยไม่ยืนยันตัวเอง",
+      "correctExplanation": "Tailgating เป็น social engineering เชิงกายภาพที่อาศัยมนุษย์เปิดทางให้",
+      "wrongExplanation": "Tailgating คือการตามเข้าพื้นที่โดยไม่ผ่านการตรวจสิทธิ์ ไม่ใช่ SQL injection"
+    },
+    {
+      "question": "ตั้งแต่ 1 ก.ย. 2026 โดเมนใหม่ของ CC ข้อใดถูกต้อง?",
+      "options": [
+        "ยังคงเป็น BC/DR เป็นโดเมนแยกน้ำหนัก 10% เหมือนเดิมทุกประการ",
+        "มี Security Governance และ Networking and Cloud Security Concepts เป็นโดเมนชัดเจนขึ้น",
+        "เหลือเพียง 3 โดเมน",
+        "ยกเลิกข้อสอบ CAT ทั้งหมด"
+      ],
+      "correctIndex": 1,
+      "hint": "ดู Exam Outline Effective Date: September 1, 2026",
+      "correctExplanation": "Outline 2026 ปรับเป็น Principles, Governance, IAM, Networking & Cloud, Operations & IR",
+      "wrongExplanation": "ฉบับ Sept 1, 2026 ยังมี 5 โดเมน แต่จัดกลุ่มใหม่ รวม Governance และ Cloud ชัดขึ้น"
+    }
+  ]
+}
