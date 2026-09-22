@@ -1,0 +1,125 @@
+{
+  "title": "AWS Developer Associate (DVA-C02)",
+  "flashcards": [
+    {
+      "question": "Domain weights ของ DVA-C02 มีอะไรบ้าง?",
+      "answer": "1. Development with AWS Services — 32%\n2. Security — 26%\n3. Deployment — 24%\n4. Troubleshooting and Optimization — 18%\n• ที่มา: Official Exam Guide"
+    },
+    {
+      "question": "รูปแบบข้อสอบ DVA-C02 เป็นอย่างไร?",
+      "answer": "• 65 ข้อ\n• 130 นาที\n• Multiple choice / multiple response\n• ผ่านที่ scaled score 720/1000\n• ค่าธรรมเนียมประมาณ USD 150"
+    },
+    {
+      "question": "Lambda synchronous vs asynchronous invocation ต่างกันอย่างไรเรื่อง retry?",
+      "answer": "• Synchronous (เช่น API Gateway): caller จัดการ error / ไม่มี auto-retry จาก Lambda service\n• Asynchronous (เช่น S3, SNS, EventBridge): Lambda retry อัตโนมัติสูงสุด 2 ครั้ง (รวม 3 attempts)\n• Event source mapping (SQS/Kinesis/DDB Streams): Lambda poll และจัดการ partial batch ตาม config"
+    },
+    {
+      "question": "เมื่อ Lambda ต้องเข้าถึง resource ใน private subnet ต้องทำอะไร?",
+      "answer": "• เชื่อม Lambda กับ VPC (private subnets + security groups)\n• ถ้าต้องออก internet: มี route ไป NAT Gateway\n• ใช้ VPC endpoints สำหรับบริการ AWS บางชนิดเพื่อไม่พึ่ง internet\n• Execution role ต้องมีสิทธิ์สร้าง ENI (AWSLambdaVPCAccessExecutionRole)"
+    },
+    {
+      "question": "Lambda Destinations ต่างจาก DLQ อย่างไร?",
+      "answer": "• DLQ (SQS/SNS): เก็บเฉพาะ failed event payload ของ async invocation\n• Destinations: ส่ง record ของ success หรือ failure ได้ และมี metadata เพิ่ม (เช่น response, stack trace)\n• Destinations รองรับ SQS, SNS, EventBridge, Lambda อีกตัว"
+    },
+    {
+      "question": "พารามิเตอร์สำคัญที่ต้องตั้งค่า Lambda มีอะไรบ้าง?",
+      "answer": "• Memory (มีผลต่อ CPU ด้วย)\n• Timeout\n• Concurrency / reserved concurrency\n• Runtime และ handler\n• Environment variables\n• Layers / extensions\n• Triggers และ destinations"
+    },
+    {
+      "question": "DynamoDB Query ต่างจาก Scan อย่างไร?",
+      "answer": "• Query: อ่านด้วย partition key (และเงื่อนไข sort key) — มีประสิทธิภาพ\n• Scan: อ่านทั้งตารางหรือ index — แพงและช้าเมื่อตารางใหญ่\n• ข้อสอบมักเลือก Query + ออกแบบ key ให้ตรง access pattern"
+    },
+    {
+      "question": "GSI กับ LSI ใน DynamoDB ต่างกันอย่างไร?",
+      "answer": "• LSI: ใช้ partition key เดียวกับตาราง เปลี่ยน sort key; สร้างตอนสร้างตาราง; ใช้ throughput ของตาราง\n• GSI: partition/sort key ใหม่ได้; สร้าง/ลบทีหลังได้; มี throughput แยก\n• LSI รองรับ strongly consistent; GSI เป็น eventually consistent"
+    },
+    {
+      "question": "Eventually consistent vs strongly consistent reads ใน DynamoDB?",
+      "answer": "• Eventually consistent (default): อาจอ่านค่าเก่าชั่วคราว — ถูกกว่า/throughput สูงกว่า\n• Strongly consistent: ได้ค่าล่าสุดที่เขียนสำเร็จแล้ว — ใช้ RCU มากขึ้น\n• Global tables / GSI ไม่รองรับ strongly consistent ในลักษณะเดียวกับ base table"
+    },
+    {
+      "question": "ทำอย่างไรไม่ให้ DynamoDB มี hot partition?",
+      "answer": "• เลือก partition key ที่มี high cardinality\n• หลีกเลี่ยง key ที่ skew มาก (เช่น status=ACTIVE อย่างเดียว)\n• ใช้ write sharding / composite keys ตาม access pattern\n• ดู CloudWatch ThrottledRequests / การกระจาย RCU/WCU"
+    },
+    {
+      "question": "SQS Standard กับ FIFO ต่างกันอย่างไร?",
+      "answer": "• Standard: at-least-once, best-effort ordering, throughput สูงมาก\n• FIFO: exactly-once processing (ในเงื่อนไข), order ต่อ Message Group, throughput จำกัดกว่า\n• FIFO ต้องมี MessageGroupId และมักใช้ Content-based deduplication หรือ DeduplicationId"
+    },
+    {
+      "question": "SQS visibility timeout ใช้ทำอะไร และตั้งอย่างไรเมื่อมี Lambda?",
+      "answer": "• ซ่อนข้อความระหว่าง consumer ประมวลผล เพื่อไม่ให้ consumer อื่นรับซ้ำทันที\n• ควรยาวกว่าเวลาประมวลผลสูงสุด\n• ถ้า fail ก่อนหมดเวลา ข้อความจะกลับมา visible\n• กับ Lambda event source: จัดการ partial batch failure / ระวัง poison message"
+    },
+    {
+      "question": "รูปแบบ SNS + SQS fan-out คืออะไร?",
+      "answer": "• Publisher ส่งไป SNS topic ครั้งเดียว\n• มีหลาย SQS queues subscribe topic\n• แต่ละ consumer อ่านจาก queue ของตนแบบ decoupled\n• ใช้เมื่อต้องการ fan-out ไปหลายระบบอย่างทนทาน"
+    },
+    {
+      "question": "IAM trust policy ต่างจาก permissions policy อย่างไร?",
+      "answer": "• Trust policy (resource-based บน role): ใคร AssumeRole ได้บ้าง\n• Permissions policy: role นั้นทำอะไรได้บน AWS resources\n• Lambda execution role = permissions ให้ฟังก์ชันเรียกบริการอื่น\n• Resource-based policy บน Lambda = ใคร/บริการไหน invoke ได้"
+    },
+    {
+      "question": "เมื่อไหร่ใช้ Secrets Manager แทน SSM Parameter Store?",
+      "answer": "• Secrets Manager: โฟกัส secrets + automatic rotation + integrate กับ RDS ฯลฯ (มีค่าใช้จ่ายต่อ secret)\n• Parameter Store: config ทั่วไป hierarchical; SecureString เข้ารหัสด้วย KMS; Standard ฟรีในโควตา; Advanced มี throughput/ขนาดสูงกว่า\n• ข้อสอบ: password/API key ที่ต้อง rotate → Secrets Manager"
+    },
+    {
+      "question": "Cognito User Pools กับ Identity Pools ต่างกันอย่างไร?",
+      "answer": "• User Pools: directory สำหรับ sign-up/sign-in ออก JWT (authentication)\n• Identity Pools (Federated Identities): แลก identity เป็น AWS temporary credentials ผ่าน STS (authorization เข้า AWS resources)\n• มักใช้คู่กัน: login ด้วย User Pool แล้วได้ IAM creds จาก Identity Pool"
+    },
+    {
+      "question": "หลัก least privilege สำหรับแอปบน AWS คืออะไร?",
+      "answer": "• ให้สิทธิ์เท่าที่จำเป็นต่อ task\n• ใช้ role แยกต่อฟังก์ชัน/บริการ แทน long-term access key ในโค้ด\n• จำกัด resource ARN และเงื่อนไข (Condition) ใน policy\n• หมุนเวียน credentials และใช้ STS temporary creds"
+    },
+    {
+      "question": "CodePipeline / CodeBuild / CodeDeploy แบ่งหน้าที่อย่างไร?",
+      "answer": "• CodePipeline: orchestrate stages ของ CI/CD\n• CodeBuild: compile/test/package ตาม buildspec.yml\n• CodeDeploy: deploy ไป EC2/On-Prem/ECS/Lambda ตาม AppSpec\n• Source มักมาจาก CodeCommit, GitHub, หรือ S3"
+    },
+    {
+      "question": "กลยุทธ์ deploy ที่พบบ่อยในข้อสอบมีอะไร?",
+      "answer": "• All-at-once: เร็ว แต่เสี่ยง downtime\n• Rolling: ทยอยเปลี่ยนชุด instances\n• Blue/green: สภาพแวดล้อมคู่แล้วสลับ traffic\n• Canary / linear: เลื่อน traffic ทีละส่วน (Lambda alias + CodeDeploy)\n• เลือกตามความเสี่ยงและ rollback requirement"
+    },
+    {
+      "question": "AWS SAM กับ CloudFormation และ CDK สัมพันธ์กันอย่างไร?",
+      "answer": "• SAM: ขยาย CloudFormation สำหรับ serverless (ง่ายกว่าสำหรับ Lambda/API/DynamoDB)\n• CloudFormation: IaC หลักแบบ declarative templates\n• CDK: เขียน IaC ด้วยภาษาโปรแกรม แล้ว synth เป็น CloudFormation\n• ทั้งสามใช้ deploy เป็น stacks บน AWS"
+    },
+    {
+      "question": "API Gateway stages และ canary release ใช้ทำอะไร?",
+      "answer": "• Stage = สภาพแวดล้อมของ API (dev/test/prod) พร้อม stage variables\n• Canary release: ส่งเปอร์เซ็นต์ traffic ไป deployment ใหม่ใน stage เดิม\n• ใช้ทดสอบเวอร์ชันใหม่แบบควบคุมความเสี่ยงก่อน promote เต็ม"
+    },
+    {
+      "question": "CloudWatch กับ X-Ray ใช้ต่างกันอย่างไรเวลา debug?",
+      "answer": "• CloudWatch Logs/Metrics/Alarms: ดู log, metric, แจ้งเตือนระดับบริการ/ฟังก์ชัน\n• X-Ray: distributed tracing ดู latency เป็น segment/subsegment และ service map\n• ใช้ร่วมกัน: metric บอกว่าพัง → X-Ray บอกจุดช้า/error ใน call chain"
+    },
+    {
+      "question": "วิธีลด cold start ของ Lambda มีแนวทางใดบ้าง?",
+      "answer": "• Provisioned concurrency สำหรับ latency-sensitive\n• ลดขนาด package / ใช้ lean dependency\n• Init โค้ดหนักนอก handler อย่างระมัดระวัง\n• เลือก runtime ที่เหมาะสม\n• หลีกเลี่ยง VPC ถ้าไม่จำเป็น (หรือใช้ snapshot/ENI optimization ตามแนวทางปัจจุบัน)"
+    },
+    {
+      "question": "S3 event ไป Lambda แล้วประมวลผลล้มเหลว ควรคิดเรื่องอะไร?",
+      "answer": "• S3 → Lambda เป็น asynchronous → มี retry ของ Lambda\n• ตั้ง Destinations/DLQ เพื่อจับ failure\n• ทำให้ processing เป็น idempotent (event อาจซ้ำ)\n• ตรวจสิทธิ์ resource-based policy ของ Lambda และ IAM ของ S3"
+    },
+    {
+      "question": "ElastiCache / DAX ช่วยแอปอย่างไรในมุม Developer Associate?",
+      "answer": "• ElastiCache (Redis/Memcached): cache ชั้นแอป ลดโหลด DB\n• DAX: in-memory cache เฉพาะ DynamoDB ลด read latency\n• รู้ caching patterns: lazy loading, write-through, TTL\n• ระวัง stale data และ invalidation"
+    },
+    {
+      "question": "สิ่งที่อยู่นอกขอบเขตข้อสอบ (ไม่ต้องออกแบบลึก) มีแนวทางใด?",
+      "answer": "จาก Exam Guide — ไม่เน้นให้\n• ออกแบบ distributed architecture ระดับ Solutions Architect ลึก ๆ\n• บริหาร IAM users/groups ระยะยาวแบบ admin\n• ออกแบบเครือข่าย VPC/Direct Connect ซับซ้อน\n• โฟกัส: พัฒนา ทดสอบ deploy debug แอปบน AWS"
+    },
+    {
+      "question": "Amazon EventBridge เหมาะกับสถานการณ์ใด?",
+      "answer": "• Event bus สำหรับ event-driven architecture\n• Rule กรอง event แล้วส่งไป target หลายตัว\n• Integrate กับ AWS services, SaaS partners, custom apps\n• เหมาะกว่า SNS เมื่อต้องการ content-based routing / schema"
+    },
+    {
+      "question": "ก่อนสอบจริงควรทำอะไรบ้าง?",
+      "answer": "1. อ่าน Official Exam Guide ให้ครบ domains\n2. Hands-on lab: Lambda + API GW + DynamoDB + IAM + pipeline\n3. ท่องจุดเปรียบเทียบบริการ (SQS/SNS, SAM/CFN, Secrets/SSM)\n4. ทำ practice exams จน ~80%+\n5. ทบทวนข้อผิดด้วย flashcards"
+    },
+    {
+      "question": "DVA-C02 กับ DVA-C03 ต่างกันอย่างไรในภาพรวม (2026)?",
+      "answer": "• C02: สอบได้ถึง 30 พ.ย. 2026 — โฟกัสพัฒนาแอป AWS แบบเดิม\n• C03: GA 1 ธ.ค. 2026 — เพิ่ม AI-assisted development และ AI security\n• รูปแบบยังประมาณ 65 ข้อ / 130 นาที / ผ่าน 720\n• ถ้าพร้อมแล้วและต้องการใบรับรองเร็ว → สอบ C02 ได้"
+    },
+    {
+      "question": "ทำไมข้อสอบชอบถามเรื่อง idempotency?",
+      "answer": "• ระบบกระจาย/queue/retry ทำให้ processing ซ้ำได้\n• ต้องออกแบบให้ทำซ้ำแล้วได้ผลเทียบเท่า (เช่น conditional write, dedupe keys)\n• เกี่ยวกับ SQS at-least-once, Lambda async retries, Step Functions retries"
+    }
+  ]
+}
