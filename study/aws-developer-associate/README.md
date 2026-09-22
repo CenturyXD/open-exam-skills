@@ -6,12 +6,21 @@
 
 | ไฟล์ | คำอธิบาย |
 |------|----------|
+| `STUDY-GUIDE.md` | **คู่มือสรุปทั้งชุด — แนะนำสำหรับ Notion** |
+| `flashcards.md` | บัตรท่อง 30 ข้อ แบบ Markdown |
+| `quiz.md` | แบบทดสอบ 20 ข้อพร้อมเฉลย แบบ Markdown |
 | `SOURCES.md` | รายการแหล่งข้อมูลทางการ + รูปแบบข้อสอบ |
 | `mindmap.md` / `mindmap.html` | แผนที่ความคิดตาม 4 domains |
-| `flashcards.json` / `flashcards.html` | บัตรคำท่องจำจุดที่ออกบ่อย |
-| `quiz.json` / `quiz.html` | แบบทดสอบปรนัยแนวข้อสอบ 20 ข้อ |
+| `flashcards.json` / `flashcards.html` | บัตรคำท่องจำแบบ interactive |
+| `quiz.json` / `quiz.html` | แบบทดสอบ interactive |
 
-## วิธีใช้
+## วิธีใช้กับ Notion
+
+1. Import `STUDY-GUIDE.md` เป็นหน้าหลัก
+2. Import `flashcards.md` และ `quiz.md` เป็นหน้าลูก
+3. หรือ Copy เนื้อหาจากไฟล์ `.md` แล้ว Paste ใน Notion โดยตรง
+
+## วิธีใช้แบบ interactive (เบราว์เซอร์)
 
 1. อ่าน `SOURCES.md` เพื่อรู้ขอบเขตและเวอร์ชันข้อสอบ
 2. เปิด `mindmap.html` เพื่อเห็นภาพรวม 4 domains
